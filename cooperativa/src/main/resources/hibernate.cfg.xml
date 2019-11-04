@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-configuration PUBLIC
+        "-//Hibernate/Hibernate Configuration DTD 3.0//EN"
+        "http://www.hibernate.org/dtd/hibernate-configuration-3.0.dtd">
+
+<hibernate-configuration>
+	<!-- Permite obtener objetos de sesion (conexiones) a la base de datos -->
+    <session-factory>
+
+        <!-- JDBC Database connection settings -->
+        <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
+        <property name="connection.url">jdbc:mysql://localhost:3306/cooperativa?useSSL=false&amp;serverTimezone=UTC</property>
+        <property name="connection.username">root</property>
+        <property name="connection.password">root</property>
+
+        <!-- JDBC connection pool settings ... using built-in test pool -->
+        <property name="connection.pool_size">1</property>
+
+        <!-- Select our SQL dialect -->
+        <property name="dialect">org.hibernate.dialect.MySQLDialect</property>
+
+        <!-- Echo the SQL to stdout -->
+        <property name="show_sql">true</property>
+        
+        <property name="hibernate.enable_lazy_load_no_trans">true</property>
+		
+		<!-- 
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Autor"/>
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Libro"/>
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Publicacion"/>
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Genero"/>
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Rol"/>
+		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Privilegio"/>
+ 		 -->
+    </session-factory>
+
+</hibernate-configuration>
