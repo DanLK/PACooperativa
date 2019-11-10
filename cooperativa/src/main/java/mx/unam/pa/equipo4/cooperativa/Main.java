@@ -21,12 +21,15 @@ public class Main {
 			UsuarioService servicioUsuario = context.getBean(UsuarioService.class);
 			RolService servicioRol = context.getBean(RolService.class);
 			
-			
+			System.out.println(" ");
+			System.out.println(" ");
 			System.out.println("****************************************************************");
 			System.out.println("TABLA USUARIO");
 			System.out.println("****************************************************************");
+			System.out.println(" ");
 			System.out.println("// LISTAR ULTIMOS 10 USUARIOS ----------------------------------");
 			m.printLastUsuarios(m, servicioUsuario, 10);
+			System.out.println(" ");
 			System.out.println("// MODIFICAR EL ULTIMO USUARIO ----------------------------------");
 			List<Usuario> listadoUltimoUsuario = servicioUsuario.listarUltimosUsuarios(1);
 			Usuario usuario = listadoUltimoUsuario.get(0);
@@ -38,6 +41,7 @@ public class Main {
 			m.printLastUsuarios(m, servicioUsuario, 1);
 			System.out.println("... REVERTIMOS MODIFICACION");
 			m.modifyNameLastUsuario(m, servicioUsuario, usuario, "NOMBRE NO MODIFICADO");
+			System.out.println(" ");
 			System.out.println("// AÑADIR USUARIO NUEVO ----------------------------------");
 			System.out.println("... AGREGAMOS USUARIO USUARIO ");
 			Rol rolSocio = servicioRol.getRol(2);
@@ -45,6 +49,7 @@ public class Main {
 			servicioUsuario.guardar(nuevoUsuario);
 			System.out.println("... LISTAMOS ULTIMOS 2 USUARIOS ");
 			m.printLastUsuarios(m, servicioUsuario, 2);
+			System.out.println(" ");
 			System.out.println("// ELIMINAR ULTIMO USUARIO ---------------------------------");
 			listadoUltimoUsuario = servicioUsuario.listarUltimosUsuarios(1);
 			usuario = listadoUltimoUsuario.get(0);
