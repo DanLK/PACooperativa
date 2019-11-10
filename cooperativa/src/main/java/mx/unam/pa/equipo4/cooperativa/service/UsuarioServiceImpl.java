@@ -21,6 +21,31 @@ public class UsuarioServiceImpl implements UsuarioService {
 	}
 
 	@Override
+	public List<Usuario> listarPrimerosUsuarios(int many) {
+		return dao.getFirstUsuarios(many);
+	}
+	
+	@Override
+	public List<Usuario> listarUltimosUsuarios(int many) {
+		return dao.getLastUsuarios(many);
+	}
+	
+	@Override
+	public void desalojar(Usuario usuario) {
+		dao.evict(usuario);
+	}
+	
+	@Override
+	public void eliminar(Usuario usuario) {
+		dao.delete(usuario);
+	}
+	
+	@Override
+	public void actualizar(Usuario usuario) {
+		dao.update(usuario);
+	}
+	
+	@Override
 	public void guardar(Usuario usuario) {
 		dao.save(usuario);
 	}
@@ -29,4 +54,5 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public Usuario getUsuario(int id) {
 		return dao.getUsuario(id);
 	}
+	
 }

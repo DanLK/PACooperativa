@@ -1,6 +1,7 @@
 package mx.unam.pa.equipo4.cooperativa.dao;
 
 import java.util.List;
+
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -32,6 +33,47 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		List<Usuario> usuarios = query.getResultList();
 		
 		return usuarios;
+	}
+	
+	@Override
+	public List<Usuario> getFirstUsuarios(int many) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteria.from(Usuario.class);
+		criteria.select(root);
+		Query<Usuario> query = session.createQuery(criteria).setMaxResults(many);
+		List<Usuario> usuarios = query.getResultList();
+
+		return usuarios;
+	}
+
+	@Override
+	public List<Usuario> getLastUsuarios(int many) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteria.from(Usuario.class);
+		criteria.orderBy(builder.desc(root.get("id")));
+		Query<Usuario> query = session.createQuery(criteria).setMaxResults(many);
+		List<Usuario> usuarios = query.getResultList();
+
+		return usuarios;
+	}
+	
+	@Override
+	public void evict(Usuario usuario) {
+		sessionFactory.getCurrentSession().evict(usuario);
+	}
+	
+	@Override
+	public void update(Usuario usuario) {
+		sessionFactory.getCurrentSession().update(usuario);
+	}
+	
+	@Override
+	public void delete(Usuario usuario) {
+		sessionFactory.getCurrentSession().remove(usuario);
 	}
 	
 	@Override
