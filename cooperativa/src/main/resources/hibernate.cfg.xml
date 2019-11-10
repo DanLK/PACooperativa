@@ -24,6 +24,8 @@
         
         <property name="hibernate.enable_lazy_load_no_trans">true</property>
 		
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Usuario"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Rol"/>
 		<!-- 
 		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Autor"/>
 		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Libro"/>
