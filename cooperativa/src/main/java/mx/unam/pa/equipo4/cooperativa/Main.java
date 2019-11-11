@@ -8,10 +8,12 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import mx.unam.pa.equipo4.cooperativa.config.HibernateConfig;
 import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.PedidoStatus;
+import mx.unam.pa.equipo4.cooperativa.model.Producto;
 import mx.unam.pa.equipo4.cooperativa.model.Rol;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.PedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.PedidoStatusService;
+import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 import mx.unam.pa.equipo4.cooperativa.service.RolService;
 import mx.unam.pa.equipo4.cooperativa.service.UsuarioService;
 
@@ -27,6 +29,7 @@ public class Main {
 			RolService servicioRol = context.getBean(RolService.class);
 			PedidoStatusService servicioPedidoStatus = context.getBean(PedidoStatusService.class);
 			PedidoService servicioPedido = context.getBean(PedidoService.class);
+			ProductoService servicioProducto = context.getBean(ProductoService.class);
 			
 			System.out.println(" ");
 			System.out.println(" ");
@@ -184,6 +187,62 @@ public class Main {
 			servicioPedido.eliminar(pedido);
 			System.out.println("... LISTAMOS ULTIMOS 2 PEDIDOS DESPUES DE ELIMINAR");
 			m.printLastPedidos(m, servicioPedido, 2);
+			
+			System.out.println(" ");
+			System.out.println(" ");
+			System.out.println("****************************************************************");
+			System.out.println("TABLA PRODUCTO");
+			System.out.println("****************************************************************");
+			System.out.println(" ");
+			System.out.println("// LISTAR ULTIMOS 3 PRODUCTOS ----------------------------------");
+			m.printLastProductos(m, servicioProducto, 3);
+			System.out.println(" ");
+			System.out.println("// MODIFICAR EL ULTIMO PRODUCTO ----------------------------------");
+			List<Producto> listadoUltimoProducto = servicioProducto.listarUltimosProductos(1);
+			Producto producto = listadoUltimoProducto.get(0);
+			System.out.println("... MOSTRAMOS ANTES DE MODIFICACION");
+			System.out.println(producto);
+			System.out.println("... MODIFICAMOS");		
+			m.modifyNombreLastProducto(m, servicioProducto, producto, "NOMBRE MODIFICADO");
+			System.out.println("... MOSTRAMOS DESPUES DE MODIFICACION");
+			m.printLastProductos(m, servicioProducto, 1);
+			System.out.println("... REVERTIMOS MODIFICACION");
+			m.modifyNombreLastProducto(m, servicioProducto, producto, "NOMBRE NO MODIFICADO");
+			System.out.println(" ");
+			System.out.println("// AÑADIR PRODUCTO NUEVO ----------------------------------");
+			System.out.println("... AGREGAMOS PRODUCTO NUEVO ");
+			Producto nuevoProducto = new Producto("PRODUCTO NUEVO", "3 kg", Float.parseFloat("555.555"), "Frutas y verduras");
+			servicioProducto.guardar(nuevoProducto);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTOS ");
+			m.printLastProductos(m, servicioProducto, 2);
+			System.out.println(" ");
+			System.out.println("// ELIMINAR ULTIMO PRODUCTO ---------------------------------");
+			listadoUltimoProducto = servicioProducto.listarUltimosProductos(1);
+			producto = listadoUltimoProducto.get(0);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO ANTES DE ELIMINAR");
+			m.printLastProductos(m, servicioProducto, 2);
+			System.out.println("... ELIMININAMOS ULTIMO Producto");
+			servicioProducto.eliminar(producto);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO DESPUES DE ELIMINAR");
+			m.printLastProductos(m, servicioProducto, 2);
+			
+		}
+	}
+	
+	public void modifyNombreLastProducto(Main m, ProductoService servicioProducto, Producto producto, String newNombre) {
+		servicioProducto.desalojar(producto);
+		producto.setNombre(newNombre);
+		servicioProducto.actualizar(producto);
+	}
+	
+	public void printLastProductos(Main m, ProductoService servicioProducto, int many) {
+		List<Producto> listadoUltimosProductos = servicioProducto.listarUltimosProductos(many);
+		m.printProductos(listadoUltimosProductos);
+	}
+	
+	public void printProductos(List<Producto> productos) {
+		for(Producto producto: productos) {
+			System.out.println(producto);
 		}
 	}
 	
