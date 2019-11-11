@@ -9,10 +9,12 @@ import mx.unam.pa.equipo4.cooperativa.config.HibernateConfig;
 import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.PedidoStatus;
 import mx.unam.pa.equipo4.cooperativa.model.Producto;
+import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 import mx.unam.pa.equipo4.cooperativa.model.Rol;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.PedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.PedidoStatusService;
+import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 import mx.unam.pa.equipo4.cooperativa.service.RolService;
 import mx.unam.pa.equipo4.cooperativa.service.UsuarioService;
@@ -30,6 +32,7 @@ public class Main {
 			PedidoStatusService servicioPedidoStatus = context.getBean(PedidoStatusService.class);
 			PedidoService servicioPedido = context.getBean(PedidoService.class);
 			ProductoService servicioProducto = context.getBean(ProductoService.class);
+			ProductoPedidoService servicioProductoPedido = context.getBean(ProductoPedidoService.class);
 			
 			System.out.println(" ");
 			System.out.println(" ");
@@ -226,6 +229,63 @@ public class Main {
 			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO DESPUES DE ELIMINAR");
 			m.printLastProductos(m, servicioProducto, 2);
 			
+			System.out.println(" ");
+			System.out.println(" ");
+			System.out.println("****************************************************************");
+			System.out.println("TABLA PRODUCTO PEDIDOS");
+			System.out.println("****************************************************************");
+			System.out.println(" ");
+			System.out.println("// LISTAR ULTIMOS 3 PRODUCTO PEDIDOS ----------------------------------");
+			m.printLastProductoPedidos(m, servicioProductoPedido, 3);
+			System.out.println(" ");
+			System.out.println("// MODIFICAR EL ULTIMO PRODUCTO PEDIDO ----------------------------------");
+			List<ProductoPedido> listadoUltimoProductoPedido = servicioProductoPedido.listarUltimosProductoPedidos(1);
+			ProductoPedido productoPedido = listadoUltimoProductoPedido.get(0);
+			System.out.println("... MOSTRAMOS ANTES DE MODIFICACION");
+			System.out.println(productoPedido);
+			System.out.println("... MODIFICAMOS");		
+			m.modifyCantidadLastProductoPedido(m, servicioProductoPedido, productoPedido, 777);
+			System.out.println("... MOSTRAMOS DESPUES DE MODIFICACION");
+			m.printLastProductoPedidos(m, servicioProductoPedido, 1);
+			System.out.println("... REVERTIMOS MODIFICACION");
+			m.modifyCantidadLastProductoPedido(m, servicioProductoPedido, productoPedido, 888);
+			System.out.println(" ");
+			System.out.println("// AÑADIR PRODUCTO PEDIDO NUEVO ----------------------------------");
+			System.out.println("... AGREGAMOS PRODUCTO PEDIDO NUEVO ");
+			Pedido pedidoParaProducto = servicioPedido.getPedido(3);
+			Producto productoParaPedido = servicioProducto.getProducto(13);
+			ProductoPedido nuevoProductoPedido = new ProductoPedido(2, pedidoParaProducto, productoParaPedido);
+			servicioProductoPedido.guardar(nuevoProductoPedido);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO PEDIDOS ");
+			m.printLastProductoPedidos(m, servicioProductoPedido, 2);
+			System.out.println(" ");
+			System.out.println("// ELIMINAR ULTIMO PRODUCTO PEDIDOS ---------------------------------");
+			listadoUltimoProductoPedido = servicioProductoPedido.listarUltimosProductoPedidos(1);
+			productoPedido = listadoUltimoProductoPedido.get(0);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO PEDIDOS ANTES DE ELIMINAR");
+			m.printLastProductoPedidos(m, servicioProductoPedido, 2);
+			System.out.println("... ELIMININAMOS ULTIMO ProductoPedido");
+			servicioProductoPedido.eliminar(productoPedido);
+			System.out.println("... LISTAMOS ULTIMOS 2 PRODUCTO PEDIDOS DESPUES DE ELIMINAR");
+			m.printLastProductoPedidos(m, servicioProductoPedido, 2);
+			
+		}
+	}
+	
+	public void modifyCantidadLastProductoPedido(Main m, ProductoPedidoService servicioProductoPedido, ProductoPedido productoPedido, int newCantidad) {
+		servicioProductoPedido.desalojar(productoPedido);
+		productoPedido.setCantidad(newCantidad);
+		servicioProductoPedido.actualizar(productoPedido);
+	}
+	
+	public void printLastProductoPedidos(Main m, ProductoPedidoService servicioProductoPedido, int many) {
+		List<ProductoPedido> listadoUltimosProductoPedidos = servicioProductoPedido.listarUltimosProductoPedidos(many);
+		m.printProductoPedidos(listadoUltimosProductoPedidos);
+	}
+	
+	public void printProductoPedidos(List<ProductoPedido> productoPedidos) {
+		for(ProductoPedido productoPedido: productoPedidos) {
+			System.out.println(productoPedido);
 		}
 	}
 	
