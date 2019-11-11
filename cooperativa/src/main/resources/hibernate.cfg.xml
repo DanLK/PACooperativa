@@ -26,14 +26,11 @@
 		
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Usuario"/>
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Rol"/>
-		<!-- 
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Autor"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Libro"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Publicacion"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Genero"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Rol"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Privilegio"/>
- 		 -->
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.PedidoStatus"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Pedido"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Producto"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.ProductoPedido"/>
+		
     </session-factory>
 
 </hibernate-configuration>
