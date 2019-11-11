@@ -35,6 +35,34 @@ public class RolDAOImpl implements RolDAO {
 	}
 	
 	@Override
+	public List<Rol> getLastRoles(int many) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Rol> criteria = builder.createQuery(Rol.class);
+		Root<Rol> root = criteria.from(Rol.class);
+		criteria.orderBy(builder.desc(root.get("id")));
+		Query<Rol> query = session.createQuery(criteria).setMaxResults(many);
+		List<Rol> roles = query.getResultList();
+
+		return roles;
+	}
+	
+	@Override
+	public void evict(Rol rol) {
+		sessionFactory.getCurrentSession().evict(rol);
+	}
+	
+	@Override
+	public void update(Rol rol) {
+		sessionFactory.getCurrentSession().update(rol);
+	}
+	
+	@Override
+	public void remove(Rol rol) {
+		sessionFactory.getCurrentSession().remove(rol);
+	}
+	
+	@Override
 	public void save(Rol rol) {
 		sessionFactory.getCurrentSession().save(rol);
 	}

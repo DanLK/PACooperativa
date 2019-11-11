@@ -26,6 +26,8 @@
 		
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Usuario"/>
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Rol"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.PedidoStatus"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Pedido"/>
 		<!-- 
 		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Autor"/>
 		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Libro"/>

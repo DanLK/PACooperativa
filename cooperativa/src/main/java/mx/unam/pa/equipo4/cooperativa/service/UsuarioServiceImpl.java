@@ -37,7 +37,7 @@ public class UsuarioServiceImpl implements UsuarioService {
 	
 	@Override
 	public void eliminar(Usuario usuario) {
-		dao.delete(usuario);
+		dao.remove(usuario);
 	}
 	
 	@Override

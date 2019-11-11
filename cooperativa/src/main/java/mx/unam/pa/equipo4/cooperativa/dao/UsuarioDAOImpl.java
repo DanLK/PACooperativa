@@ -72,7 +72,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
-	public void delete(Usuario usuario) {
+	public void remove(Usuario usuario) {
 		sessionFactory.getCurrentSession().remove(usuario);
 	}
 	
