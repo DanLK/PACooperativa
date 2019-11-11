@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.unam.pa.equipo4.cooperativa.dao.UsuarioDAO;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
+import mx.unam.pa.equipo4.cooperativa.model.Login;
 
 @Service
 @Transactional
@@ -28,5 +29,10 @@ public class UsuarioServiceImpl implements UsuarioService {
 	@Override
 	public Usuario getUsuario(int id) {
 		return dao.getUsuario(id);
+	}
+	
+	@Override
+	public Usuario validarUsuario(Login login) {
+		return dao.validarUsuario(login);
 	}
 }
