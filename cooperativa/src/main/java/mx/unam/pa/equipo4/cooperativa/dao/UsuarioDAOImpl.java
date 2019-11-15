@@ -36,6 +36,20 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	}
 	
 	@Override
+	public List<Usuario> getAllSocios() {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteria.from(Usuario.class);
+		criteria.select(root).where(builder.equal(root.get("rol"),2));
+		Query<Usuario> query = session.createQuery(criteria);
+		List<Usuario> socios = query.getResultList();
+		
+		return socios;
+		
+	}
+	
+	@Override
 	public List<Usuario> getFirstUsuarios(int many) {
 		Session session = sessionFactory.getCurrentSession();
 		CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -60,6 +74,7 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 
 		return usuarios;
 	}
+	
 	
 	@Override
 	public void evict(Usuario usuario) {

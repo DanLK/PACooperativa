@@ -15,6 +15,8 @@ import javax.persistence.ManyToOne;
 
 @Entity
 @Table(name = "pedido")
+
+
 public class Pedido {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -93,5 +95,6 @@ public class Pedido {
 		builder.append("Pedido [id=").append(id).append(", Fecha Registro=").append(fechaRegistro).append(", total=").append(total).append(", PedidoStatus=").append(pedidoStatus).append(", Usuario=").append(usuario).append("]");
 		return builder.toString();
 	}
+	
 	
 }

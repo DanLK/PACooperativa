@@ -19,6 +19,11 @@ public class UsuarioServiceImpl implements UsuarioService {
 	public List<Usuario> listarUsuarios() {
 		return dao.getAllUsuarios();
 	}
+	
+	@Override
+	public List<Usuario> listarSocios(){
+		return dao.getAllSocios();
+	}
 
 	@Override
 	public List<Usuario> listarPrimerosUsuarios(int many) {

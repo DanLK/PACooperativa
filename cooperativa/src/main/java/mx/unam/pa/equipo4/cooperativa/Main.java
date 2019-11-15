@@ -157,6 +157,8 @@ public class Main {
 			System.out.println("TABLA PEDIDOS");
 			System.out.println("****************************************************************");
 			System.out.println(" ");
+			System.out.println("// PEDIDOS DE LA ULTIMA SEMANA");
+			m.printPedidosSemana(m, servicioPedido);
 			System.out.println("// LISTAR ULTIMOS 3 PEDIDOS ----------------------------------");
 			m.printLastPedidos(m, servicioPedido, 3);
 			System.out.println(" ");
@@ -372,6 +374,11 @@ public class Main {
 		for(Usuario usuario: usuarios) {
 			System.out.println(usuario);
 		}
+	}
+	
+	public void printPedidosSemana(Main m, PedidoService servicioPedido) {
+		List<Pedido> listadoPedidosSemana = servicioPedido.listarPedidosSemana();
+		m.printPedidos(listadoPedidosSemana);
 	}
 	
 }

@@ -7,6 +7,8 @@ public interface UsuarioDAO {
 	
 	public List<Usuario> getAllUsuarios();
 	
+	public List<Usuario> getAllSocios();
+	
 	public List<Usuario> getFirstUsuarios(int many);
 	
 	public List<Usuario> getLastUsuarios(int many);

@@ -6,6 +6,7 @@ import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 
 public interface UsuarioService {
 	public List<Usuario> listarUsuarios();
+	public List<Usuario> listarSocios();
 	public List<Usuario> listarPrimerosUsuarios(int many);
 	public List<Usuario> listarUltimosUsuarios(int many);
 	public void desalojar(Usuario usuario);

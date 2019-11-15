@@ -21,6 +21,11 @@ public class ProductoServiceImpl implements ProductoService {
 	}
 	
 	@Override
+	public List<Producto> listarProductosDepto(String depto) {
+		return dao.getProductosDepto(depto);
+	}
+	
+	@Override
 	public List<Producto> listarUltimosProductos(int many) {
 		return dao.getLastProductos(many);
 	}
