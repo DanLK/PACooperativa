@@ -47,6 +47,8 @@ public class PedidoDAOImpl implements PedidoDAO {
 		ManejoFechas test = new ManejoFechas();
 		Date fechaFinal = new Date();
 		Date fechaInicial = test.restarDias(fechaFinal, 7);
+		System.out.println(fechaFinal);
+		System.out.println(fechaInicial);
 		
 		Root<Pedido> root = criteria.from(Pedido.class);
 		criteria.select(root).where(builder.between(root.get("fechaRegistro"), fechaInicial, fechaFinal));
