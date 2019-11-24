@@ -8,21 +8,21 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 
 @Entity
-@Table(name = "rol")
-public class Rol {
+@Table(name = "pedido_status")
+public class PedidoStatus {
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "rol_id")
+	@Column(name = "pedido_status_id")
 	private int id;
 	
 	@Column(name = "descripcion", nullable = false, length = 255)
 	private String descripcion;
 	
-	public Rol() {
+	public PedidoStatus() {
 		super();
 	}
 	
-	public Rol(String descripcion) {
+	public PedidoStatus(String descripcion) {
 		super();
 		this.descripcion = descripcion;
 	}
@@ -46,7 +46,7 @@ public class Rol {
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
-		builder.append("Rol [id=").append(id).append(", descripcion=").append(descripcion).append("]");
+		builder.append("PedidoStatus [id=").append(id).append(", descripcion=").append(descripcion).append("]");
 		return builder.toString();
 	}
 	

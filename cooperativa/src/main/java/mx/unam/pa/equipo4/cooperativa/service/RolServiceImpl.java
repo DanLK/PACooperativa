@@ -19,7 +19,27 @@ public class RolServiceImpl implements RolService {
 	public List<Rol> listarRoles() {
 		return dao.getAllRoles();
 	}
+	
+	@Override
+	public List<Rol> listarUltimosRoles(int many) {
+		return dao.getLastRoles(many);
+	}
 
+	@Override
+	public void desalojar(Rol rol) {
+		dao.evict(rol);
+	}
+	
+	@Override
+	public void actualizar(Rol rol) {
+		dao.update(rol);
+	}
+	
+	@Override
+	public void eliminar(Rol rol) {
+		dao.remove(rol);
+	}
+	
 	@Override
 	public void guardar(Rol rol) {
 		dao.save(rol);

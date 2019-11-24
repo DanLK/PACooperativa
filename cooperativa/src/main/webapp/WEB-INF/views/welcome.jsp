@@ -5,19 +5,21 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.8.0/css/bulma.min.css">
-        <script defer src="https://use.fontawesome.com/releases/v5.3.1/js/all.js"></script>
+        <link href="../../css/bulma.min.css" rel="stylesheet">
+        <script defer src="../../js/fontawesome.js"></script>
         <title>Inicio</title>
     </head>
     <body>
         <div class="container">
             <div class="columns">
                 <div class="column">
-                    <h1>Hola, ${firstname}</h1>
+                    <h1>Hola, ${usuarioFirmado.username}</h1>
                 </div>
             </div>
             <div class="columns">
+            	<a href="/cooperativa/spring/prueba">MOSTRAR PRUEBA</a>
+            	<br>
+            	<a href="/cooperativa/spring/logout">Cerrar Sesión</a>
             </div>
         </div>
 

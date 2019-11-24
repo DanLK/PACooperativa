@@ -11,7 +11,7 @@
         <property name="connection.driver_class">com.mysql.cj.jdbc.Driver</property>
         <property name="connection.url">jdbc:mysql://localhost:3306/cooperativa?useSSL=false&amp;serverTimezone=UTC</property>
         <property name="connection.username">root</property>
-        <property name="connection.password"></property>
+        <property name="connection.password">root</property>
 
         <!-- JDBC connection pool settings ... using built-in test pool -->
         <property name="connection.pool_size">1</property>
@@ -26,14 +26,11 @@
 		
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Usuario"/>
 		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Rol"/>
-		<!-- 
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Autor"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Libro"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Publicacion"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Genero"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Rol"/>
-		<mapping class="mx.unam.pa.spring.cli.hibernate.model.Privilegio"/>
- 		 -->
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.PedidoStatus"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Pedido"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.Producto"/>
+		<mapping class="mx.unam.pa.equipo4.cooperativa.model.ProductoPedido"/>
+		
     </session-factory>
 
 </hibernate-configuration>
