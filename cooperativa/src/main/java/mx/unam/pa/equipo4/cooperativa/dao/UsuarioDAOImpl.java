@@ -1,7 +1,6 @@
 package mx.unam.pa.equipo4.cooperativa.dao;
 
 import java.util.List;
-
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
@@ -12,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
+import mx.unam.pa.equipo4.cooperativa.formas.LoginFrm;
 
 @Repository
 public class UsuarioDAOImpl implements UsuarioDAO {
@@ -33,6 +33,20 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		List<Usuario> usuarios = query.getResultList();
 		
 		return usuarios;
+	}
+	
+	@Override
+	public List<Usuario> getAllSocios() {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		Root<Usuario> root = criteria.from(Usuario.class);
+		criteria.select(root).where(builder.equal(root.get("rol"),2));
+		Query<Usuario> query = session.createQuery(criteria);
+		List<Usuario> socios = query.getResultList();
+		
+		return socios;
+		
 	}
 	
 	@Override
@@ -85,4 +99,24 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 	public Usuario getUsuario(int id) {
 		return sessionFactory.getCurrentSession().get(Usuario.class, id);
 	}
+	
+	@Override
+	public Usuario validarUsuario(LoginFrm login) {
+		 Session session = sessionFactory.getCurrentSession();
+		
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		
+		Root<Usuario> root = criteria.from(Usuario.class);
+		criteria.select(root).where(builder.and(
+				builder.equal(root.get("username"), login.getUsername()),
+				builder.equal(root.get("password"), login.getPassword())
+			));
+		
+		Query<Usuario> query = session.createQuery(criteria);
+	    List<Usuario> users = query.getResultList();
+	    return users.size() > 0 ? users.get(0) : null;
+    }
+	
 }

@@ -3,6 +3,7 @@ package mx.unam.pa.equipo4.cooperativa.service;
 import java.util.List;
 
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
+import mx.unam.pa.equipo4.cooperativa.formas.LoginFrm;
 
 public interface UsuarioService {
 	public List<Usuario> listarUsuarios();
@@ -13,4 +14,5 @@ public interface UsuarioService {
 	public void eliminar(Usuario usuario);
 	public void guardar(Usuario usuario);
 	public Usuario getUsuario(int id);
+	public Usuario validarUsuario(LoginFrm login);
 }

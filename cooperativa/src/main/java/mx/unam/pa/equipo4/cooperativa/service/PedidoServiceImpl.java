@@ -8,6 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import mx.unam.pa.equipo4.cooperativa.dao.PedidoDAO;
 import mx.unam.pa.equipo4.cooperativa.model.Pedido;
+import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 
 @Service
 @Transactional
@@ -18,6 +19,46 @@ public class PedidoServiceImpl implements PedidoService {
 	@Override
 	public List<Pedido> listarPedidos() {
 		return dao.getAllPedidos();
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosSemana() {
+		return dao.getPedidosSemana();
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosUsuario(Usuario user) {
+		return dao.getPedidosUsuario(user);
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosEnviados() {
+		return dao.getPedidosEnviados();
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosPagados() {
+		return dao.getPedidosPagados();
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosEntregados() {
+		return dao.getPedidosEntregados();
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosEnviadosUsuarios(Usuario user){
+		return dao.getPedidosEnviadosUsuario(user);
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosPagadosUsuarios(Usuario user){
+		return dao.getPedidosPagadosUsuario(user);
+	}
+	
+	@Override
+	public List<Pedido> listarPedidosEntregadosUsuarios(Usuario user){
+		return dao.getPedidosEntregadosUsuario(user);
 	}
 
 	@Override

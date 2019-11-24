@@ -7,6 +7,8 @@ public interface ProductoDAO {
 	
 	public List<Producto> getAllProductos();
 	
+	public List<Producto> getProductosDepto(String depto);
+	
 	public List<Producto> getLastProductos(int many);
 	
 	public void evict(Producto producto);

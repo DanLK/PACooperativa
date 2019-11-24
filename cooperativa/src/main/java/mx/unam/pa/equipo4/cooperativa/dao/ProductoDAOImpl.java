@@ -48,6 +48,18 @@ public class ProductoDAOImpl implements ProductoDAO {
 	}
 	
 	@Override
+	public List<Producto> getProductosDepto(String depto) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<Producto> criteria = builder.createQuery(Producto.class);
+		Root<Producto> root = criteria.from(Producto.class);
+		criteria.select(root).where(builder.equal(root.get("departamento"),depto));
+		Query<Producto> query = session.createQuery(criteria);
+		List<Producto> productosDepto = query.getResultList();
+		return productosDepto;
+	}
+	
+	@Override
 	public void evict(Producto producto) {
 		sessionFactory.getCurrentSession().evict(producto);
 	}
