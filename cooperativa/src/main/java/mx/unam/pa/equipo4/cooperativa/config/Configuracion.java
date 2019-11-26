@@ -43,7 +43,7 @@ public class Configuracion extends AbstractAnnotationConfigDispatcherServletInit
 	@Override
 	protected String[] getServletMappings() {
 		return new String[] { 
-				"/", // Spring procesará todo lo que este dentro de /spring/  
+				"/",
 				"/spring/*", // Spring procesará todo lo que este dentro de /spring/  
 			};
 	}

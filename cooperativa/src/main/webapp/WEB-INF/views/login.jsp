@@ -9,7 +9,7 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Inicio de sesión</title>
-<link href="../../css/estilo.css" rel="stylesheet">
+<link href="resources/css/estilo.css" rel="stylesheet">
 </head>
 <body>
 	<h2>Inicio de sesi&oacute;n</h2>

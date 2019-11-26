@@ -49,7 +49,7 @@ public class LoginController {
 		if( usuarioFirmado != null ) { // autenticación correcta
 			System.out.println("Usuario encontrado en la DB: " + usuarioFirmado);
 			view.addObject("usuarioFirmado", usuarioFirmado); // Creación de la sesión de usuario
-			view.setViewName("welcome");
+			view.setViewName("redirect:/");
 		}else {
 			System.out.println("Usuario no encontrado en la DB");
 			view.addObject("error", "Nombre de usuario y/o contraseña incorrectos");
