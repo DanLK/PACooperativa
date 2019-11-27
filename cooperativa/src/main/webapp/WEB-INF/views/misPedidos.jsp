@@ -43,14 +43,14 @@
 	</aside>
 	</div>
 	
-    <div>
+    <div class="pedidosListDiv">
     	<div class="box">
     		<div><label class="title is-3">Pedidos</label></div>
     		<div>
     			
     			<c:forEach items = "${listaPedidos}" var = "pedido">	
     			<div>
-    			<table class="table">
+    			<table class="table tablePedidoListDiv">
 				  <thead>
 				    <tr>
 				      <th>ID</th>
@@ -66,7 +66,11 @@
 				      		<td><fmt:formatDate type = "date" value = "${pedido.fechaRegistro}" timeZone="GMT-6" /></td>
 				      		<td>${pedido.total}</td>
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
-				      		<td><button class="button is-link">Modificar</button></td>
+				      		<td>
+				      		<c:if test="${pedido.pedidoStatus.id == 1}">
+				      		<button class="button is-link">Modificar</button>
+				      		</c:if>
+				      		</td>
 				    	</tr>
 				  </tbody>
 				</table>
@@ -97,7 +101,7 @@
 				  <c:forEach items = "${productosEnPedidos.get(pedido.id)}" var = "productoPedido">
 				  
 				  	<tr>
-				    		<th>${productoPedido.producto.nombre}</th>
+				    		<td>${productoPedido.producto.nombre}</td>
 				      		<td>${productoPedido.producto.contenido}</td>
 				      		<td>${productoPedido.producto.precio}</td>
 				      		<td>${productoPedido.cantidad}</td>

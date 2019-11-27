@@ -58,3 +58,13 @@
 .ghostForm {
 	display: none;
 }
+
+.pedidosListDiv {
+	width: 100%;
+    height: 98vh;
+    overflow-y: auto;
+}
+
+.tablePedidoListDiv {
+	width: 100%;
+}
