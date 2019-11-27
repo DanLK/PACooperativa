@@ -7,6 +7,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import mx.unam.pa.equipo4.cooperativa.dao.ProductoPedidoDAO;
+import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 
 @Service
@@ -53,6 +54,11 @@ public class ProductoPedidoServiceImpl implements ProductoPedidoService {
 	@Override
 	public ProductoPedido getProductoPedido(int id) {
 		return dao.getProductoPedido(id);
+	}
+	
+	@Override
+	public List<ProductoPedido> listarProductoPedidosDePedido(Pedido pedido) {
+		return dao.getProductoPedidosEnPedido(pedido);
 	}
 	
 }

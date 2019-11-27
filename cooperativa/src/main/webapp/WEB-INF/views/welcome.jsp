@@ -27,7 +27,8 @@
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
-        	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>	
+        	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
+        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>		
       	</c:if>
 	</ul>
 	<p class="menu-label">

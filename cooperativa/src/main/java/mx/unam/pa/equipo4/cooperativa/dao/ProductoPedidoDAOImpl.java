@@ -11,6 +11,7 @@ import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 
 @Repository
@@ -85,4 +86,17 @@ public class ProductoPedidoDAOImpl implements ProductoPedidoDAO {
 	public ProductoPedido getProductoPedido(int id) {
 		return sessionFactory.getCurrentSession().get(ProductoPedido.class, id);
 	}
+	
+	@Override
+	public List<ProductoPedido> getProductoPedidosEnPedido(Pedido pedido) {
+		Session session = sessionFactory.getCurrentSession();
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		CriteriaQuery<ProductoPedido> criteria = builder.createQuery(ProductoPedido.class);
+		Root<ProductoPedido> root = criteria.from(ProductoPedido.class);
+		criteria.select(root).where(builder.equal(root.get("pedido"), pedido));
+		Query<ProductoPedido> query = session.createQuery(criteria);
+		List<ProductoPedido> productoPedidosEnPedido = query.getResultList();
+		return productoPedidosEnPedido;
+	}
+	
 }

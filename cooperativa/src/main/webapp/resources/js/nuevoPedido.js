@@ -6,6 +6,7 @@ function removerDePedido(idItem) {
 }
 
 function cambiarCantidadItem(cantidad, idItem) {
+	if (cantidad < 1) { cantidad = 1; }
 	listadoEnPedido[idItem]["cantidad"] = cantidad;
 	listadoEnPedido[idItem]["subtotal"] = parseFloat(cantidad) * listadoEnPedido[idItem]["precioUnitario"];
 	repintarPedido();

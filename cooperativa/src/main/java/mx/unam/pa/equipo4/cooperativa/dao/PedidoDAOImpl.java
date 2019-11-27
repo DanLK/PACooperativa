@@ -47,8 +47,6 @@ public class PedidoDAOImpl implements PedidoDAO {
 		ManejoFechas test = new ManejoFechas();
 		Date fechaFinal = new Date();
 		Date fechaInicial = test.restarDias(fechaFinal, 7);
-		System.out.println(fechaFinal);
-		System.out.println(fechaInicial);
 		
 		Root<Pedido> root = criteria.from(Pedido.class);
 		criteria.select(root).where(builder.between(root.get("fechaRegistro"), fechaInicial, fechaFinal));
@@ -66,7 +64,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Pedido> criteria = builder.createQuery(Pedido.class);
 		Root<Pedido> root = criteria.from(Pedido.class);
-		criteria.select(root).where(builder.equal(root.get("Usuario"), user));
+		criteria.select(root).where(builder.equal(root.get("usuario"), user));
 		Query<Pedido> query = session.createQuery(criteria);
 		List<Pedido> pedidosUsuario = query.getResultList();
 		return pedidosUsuario;
@@ -117,7 +115,7 @@ public class PedidoDAOImpl implements PedidoDAO {
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		CriteriaQuery<Pedido> criteria = builder.createQuery(Pedido.class);
 		Root<Pedido> root = criteria.from(Pedido.class);
-		criteria.select(root).where(builder.and(builder.equal(root.get("pedidoStatus"), 1),builder.equal(root.get("Usuario"), user)));
+		criteria.select(root).where(builder.and(builder.equal(root.get("pedidoStatus"), 1),builder.equal(root.get("usuario"), user)));
 		Query<Pedido> query = session.createQuery(criteria);
 		List<Pedido> pedidosEnviadosUsuario = query.getResultList();
 		return pedidosEnviadosUsuario;

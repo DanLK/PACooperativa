@@ -2,6 +2,7 @@ package mx.unam.pa.equipo4.cooperativa.service;
 
 import java.util.List;
 
+import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 
 public interface ProductoPedidoService {
@@ -13,4 +14,5 @@ public interface ProductoPedidoService {
 	public void eliminar(ProductoPedido productoPedido);
 	public void guardar(ProductoPedido productoPedido);
 	public ProductoPedido getProductoPedido(int id);
+	public List<ProductoPedido> listarProductoPedidosDePedido(Pedido pedido);
 }

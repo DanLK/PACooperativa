@@ -1,6 +1,8 @@
 package mx.unam.pa.equipo4.cooperativa.dao;
 
 import java.util.List;
+
+import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 
 public interface ProductoPedidoDAO {
@@ -20,5 +22,7 @@ public interface ProductoPedidoDAO {
 	public void save(ProductoPedido productoPedido);
 	
 	public ProductoPedido getProductoPedido(int id);
+	
+	public List<ProductoPedido> getProductoPedidosEnPedido(Pedido pedido);
 	
 }

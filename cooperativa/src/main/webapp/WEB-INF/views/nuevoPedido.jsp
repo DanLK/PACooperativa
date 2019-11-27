@@ -29,7 +29,8 @@
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
-        	<li><a href="/cooperativa/spring/nuevopedido" class="is-active">Nuevo Pedido</a></li>	
+        	<li><a href="/cooperativa/spring/nuevopedido" class="is-active">Nuevo Pedido</a></li>
+        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>	
       	</c:if>
 	</ul>
 	<p class="menu-label">
@@ -48,7 +49,7 @@
     			<table class="table tablePd">
 				  <thead>
 				    <tr>
-				      <th>ID</abbr></th>
+				      <th>ID</th>
 				      <th>Nombre</th>
 				      <th>Contenido</th>
 				      <th>Departamento</th>
