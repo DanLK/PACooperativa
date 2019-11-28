@@ -101,7 +101,7 @@ public class NuevoPedidoController {
 			
 		}
 		
-		view.setViewName("redirect:/");
+		view.setViewName("redirect:/mispedidos");
 		return view;
 	}
 	

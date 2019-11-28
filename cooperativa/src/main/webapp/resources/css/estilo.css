@@ -68,3 +68,7 @@
 .tablePedidoListDiv {
 	width: 100%;
 }
+
+.divPedidoCodeGhost{
+	display: none;
+}

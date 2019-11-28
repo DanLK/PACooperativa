@@ -68,8 +68,8 @@
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
 				      		<td>
 				      		<c:if test="${pedido.pedidoStatus.id == 1}">
-				      		<button class="button is-link" id="modifyButton_${pedido.id}">Modificar</button>
-				      		<button class="button is-danger" id="removeButton_${pedido.id}">Remover</button>
+				      		<button class="button is-link" id="${pedido.id}">Modificar</button>
+				      		<button class="button is-danger" id="rmvBtn_${pedido.id}">Remover</button>
 				      		</c:if>
 				      		</td>
 				    	</tr>
