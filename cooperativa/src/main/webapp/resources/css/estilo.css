@@ -15,6 +15,10 @@
 	width: 100%;
 }
 
+.usuarioContent {
+	width: 100%;
+}
+
 .ventanaContent {
 	align-items: stretch;
     border-radius: 6px;

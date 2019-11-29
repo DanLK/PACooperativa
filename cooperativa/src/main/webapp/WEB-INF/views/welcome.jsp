@@ -24,6 +24,7 @@
   		<li><a href="/cooperativa/" class="is-active"> Inicio </a>
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/listarusuarios">Listar usuarios</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
