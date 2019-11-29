@@ -13,7 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
-import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.List;
@@ -36,7 +35,7 @@ import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
 @Controller
-public class PedidosPagadosController {
+public class AllPedidosController {
 	
 	@Autowired
 	PedidoService pedidoService;
@@ -50,21 +49,21 @@ public class PedidosPagadosController {
 	@Autowired
 	ProductoPedidoService productoPedidoService;
 	
-	@GetMapping("/pedidospagados")
-	public ModelAndView pedidosPagados(
+	@GetMapping("/allpedidos")
+	public ModelAndView allPedidos(
 			  	@SessionAttribute(
 				name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 				required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 				Usuario usuarioEnSesion
 		) {
-			System.out.println("Mostrando Pedidos Pagados");
-			ModelAndView mav = new ModelAndView("pedidosPagados");
+			System.out.println("Mostrando Todos los Pedidos");
+			ModelAndView mav = new ModelAndView("allPedidos");
 			
 			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			  
 			// Solicitamos a la base de datos los productos disponibles
-			List<Pedido> listaPedidos = pedidoService.listarPedidosPagados();
+			List<Pedido> listaPedidos = pedidoService.listarPedidos();
 			Collections.reverse(listaPedidos);
 			HashMap<Integer, List<ProductoPedido>> productosEnPedidos = new HashMap<Integer, List<ProductoPedido>>();
 			for (Pedido pedido : listaPedidos) {
@@ -77,7 +76,7 @@ public class PedidosPagadosController {
 			return mav;
 	}
 	
-	@GetMapping("/modificar/pedidopagado/{pedidoId}")
+	@GetMapping("/modificar/allpedidos/{pedidoId}")
 	public ModelAndView modificarPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -133,7 +132,7 @@ public class PedidosPagadosController {
 			return mav;
 	}
 	
-	@RequestMapping( value = "/modificarpedidopagado", method = RequestMethod.POST )
+	@RequestMapping( value = "/modificarallpedidos", method = RequestMethod.POST )
 	public ModelAndView registrarPedido(
 			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
 			@SessionAttribute(
@@ -181,11 +180,11 @@ public class PedidosPagadosController {
 			
 		}
 		
-		view.setViewName("redirect:/pedidospagados");
+		view.setViewName("redirect:/allpedidos");
 		return view;
 	}
 	
-	@GetMapping("/remover/pedidopagado/{pedidoId}")
+	@GetMapping("/remover/allpedidos/{pedidoId}")
 	public ModelAndView removerPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -200,8 +199,8 @@ public class PedidosPagadosController {
 			pedidoService.eliminar(pedidoARemover);
 			
 			ModelAndView view = new ModelAndView();
-			view.setViewName("redirect:/pedidospagados");
+			view.setViewName("redirect:/allpedidos");
 			return view;
 	}
-	
+
 }

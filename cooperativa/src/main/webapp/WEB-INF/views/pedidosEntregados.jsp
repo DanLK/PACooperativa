@@ -9,11 +9,10 @@
 <link href="resources/css/bulma.min.css" rel="stylesheet">
 <link href="resources/css/estilo.css" rel="stylesheet">
 <script defer src="resources/js/fontawesome.js"></script>
-<script defer src="resources/js/pedidosEnviados.js"></script>
-<title>Pedidos Enviados</title>
+<script defer src="resources/js/pedidosEntregados.js"></script>
+<title>Pedidos Entregados</title>
 </head>
 <body>
-
 <div class="ventanaContent">
     <div class="box boxAdds">
     <aside class="menu">
@@ -27,9 +26,9 @@
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
         	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
-        	<li><a href="/cooperativa/spring/pedidosenviados" class="is-active">Pedidos Enviados</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
         	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
-        	<li><a href="/cooperativa/spring/pedidosentregados" >Pedidos Entregdos</a></li>
+        	<li><a href="/cooperativa/spring/pedidosentregados" class="is-active">Pedidos Entregdos</a></li>
         	<li><a href="/cooperativa/spring/allpedidos" >Todos los Pedidos</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
@@ -47,7 +46,7 @@
   	</ul>
 	</aside>
 	</div>
-	
+
     <div class="pedidosListDiv">
     	<div class="box">
     		<div><label class="title is-3">Pedidos</label></div>
@@ -78,10 +77,10 @@
 				      		<td>${pedido.total}</td>
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
 				      		<td>
-				      <!--	<c:if test="${pedido.pedidoStatus.id == 1}">-->
+				      		<!--<c:if test="${pedido.pedidoStatus.id == 2}">
 				      		<button class="button is-link" id="${pedido.id}">Modificar</button>
 				      		<button class="button is-danger" id="rmvBtn_${pedido.id}">Remover</button>
-				    <!--  	</c:if>--> 
+				    		</c:if>-->
 				      		</td>
 				    	</tr>
 				  </tbody>
@@ -137,6 +136,5 @@
     	</div>
     </div>
 </div>
-
 </body>
 </html>
