@@ -28,6 +28,7 @@
         	<!-- <label><b>ERES ADMIN</b></label> -->
         	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
         	<li><a href="/cooperativa/spring/pedidosenviados" class="is-active">Pedidos Enviados</a></li>
+        	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
@@ -55,7 +56,10 @@
     			<table class="table tablePedidoListDiv">
 				  <thead>
 				    <tr>
-				      <th>ID</th>
+				      <th>ID Pedido</th>
+				      <th>ID Usuario</th>
+				      <th>Usuario nombre</th>
+				      <th>Usuario apellidos</th>
 				      <th>Fecha de Registro</th>
 				      <th>Total</th>
 				      <th>Status</th>
@@ -65,14 +69,17 @@
 				  <tbody>
 				  	<tr>
 				    		<th>${pedido.id}</th>
+				    		<td>${pedido.usuario.id}</td>
+				    		<td>${pedido.usuario.nombre}</td>
+				    		<td>${pedido.usuario.apellidos}</td>
 				      		<td><fmt:formatDate type = "date" value = "${pedido.fechaRegistro}" timeZone="GMT-6" /></td>
 				      		<td>${pedido.total}</td>
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
 				      		<td>
-				      		<c:if test="${pedido.pedidoStatus.id == 1}">
+				      <!--	<c:if test="${pedido.pedidoStatus.id == 1}">-->
 				      		<button class="button is-link" id="${pedido.id}">Modificar</button>
 				      		<button class="button is-danger" id="rmvBtn_${pedido.id}">Remover</button>
-				      		</c:if>
+				    <!--  	</c:if>--> 
 				      		</td>
 				    	</tr>
 				  </tbody>

@@ -36,7 +36,7 @@ import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
 @Controller
-public class PedidosSemanaController {
+public class PedidosPagadosController {
 	
 	@Autowired
 	PedidoService pedidoService;
@@ -50,21 +50,21 @@ public class PedidosSemanaController {
 	@Autowired
 	ProductoPedidoService productoPedidoService;
 	
-	@GetMapping("/pedidossemana")
+	@GetMapping("/pedidospagados")
 	public ModelAndView pedidosSemana(
 			  	@SessionAttribute(
 				name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 				required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 				Usuario usuarioEnSesion
 		) {
-			System.out.println("Mostrando Pedidos Semana");
-			ModelAndView mav = new ModelAndView("pedidosSemana");
+			System.out.println("Mostrando Pedidos Pagados");
+			ModelAndView mav = new ModelAndView("pedidosPagados");
 			
 			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			  
 			// Solicitamos a la base de datos los productos disponibles
-			List<Pedido> listaPedidos = pedidoService.listarPedidosSemana();
+			List<Pedido> listaPedidos = pedidoService.listarPedidosPagados();
 			Collections.reverse(listaPedidos);
 			HashMap<Integer, List<ProductoPedido>> productosEnPedidos = new HashMap<Integer, List<ProductoPedido>>();
 			for (Pedido pedido : listaPedidos) {
@@ -77,7 +77,7 @@ public class PedidosSemanaController {
 			return mav;
 	}
 	
-	@GetMapping("/modificar/elpedido/{pedidoId}")
+	@GetMapping("/modificar/pedidopagado/{pedidoId}")
 	public ModelAndView modificarPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -92,7 +92,7 @@ public class PedidosSemanaController {
 			// Solicitamos a la base de datos los productos disponibles
 			Pedido pedidoAModificar = pedidoService.getPedido(pedidoId);
 			
-		/*	// Verificamos que el usuario sea el que hizo el pedido
+	/*		// Verificamos que el usuario sea el que hizo el pedido
 			if (pedidoAModificar.getUsuario().getId() != usuarioEnSesion.getId()) {
 				ModelAndView view = new ModelAndView("pedidosSemana");
 				view.addObject("usuarioFirmado", usuarioEnSesion);
@@ -133,7 +133,7 @@ public class PedidosSemanaController {
 			return mav;
 	}
 	
-	@RequestMapping( value = "/modificarElPedido", method = RequestMethod.POST )
+	@RequestMapping( value = "/modificarpedidopagado", method = RequestMethod.POST )
 	public ModelAndView registrarPedido(
 			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
 			@SessionAttribute(
@@ -181,11 +181,11 @@ public class PedidosSemanaController {
 			
 		}
 		
-		view.setViewName("redirect:/pedidossemana");
+		view.setViewName("redirect:/pedidospagados");
 		return view;
 	}
 	
-	@GetMapping("/remover/elpedido/{pedidoId}")
+	@GetMapping("/remover/pedidopagado/{pedidoId}")
 	public ModelAndView removerPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -200,7 +200,7 @@ public class PedidosSemanaController {
 			pedidoService.eliminar(pedidoARemover);
 			
 			ModelAndView view = new ModelAndView();
-			view.setViewName("redirect:/pedidossemana");
+			view.setViewName("redirect:/pedidospagados");
 			return view;
 	}
 	

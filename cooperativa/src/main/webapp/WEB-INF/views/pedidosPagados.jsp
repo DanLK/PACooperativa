@@ -9,8 +9,8 @@
 <link href="resources/css/bulma.min.css" rel="stylesheet">
 <link href="resources/css/estilo.css" rel="stylesheet">
 <script defer src="resources/js/fontawesome.js"></script>
-<script defer src="resources/js/pedidosSemana.js"></script>
-<title>Pedidos Semana</title>
+<script defer src="resources/js/pedidosPagados.js"></script>
+<title>Pedidos Pagados</title>
 </head>
 <body>
 
@@ -26,9 +26,9 @@
   		<li><a href="/cooperativa/"> Inicio </a>
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
-        	<li><a href="/cooperativa/spring/pedidossemana" class="is-active">Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
         	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
-        	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
+        	<li><a href="/cooperativa/spring/pedidospagados" class="is-active">Pedidos Pagados</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
@@ -76,10 +76,10 @@
 				      		<td>${pedido.total}</td>
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
 				      		<td>
-				      		<c:if test="${pedido.pedidoStatus.id == 1}">
+				      <!--	<c:if test="${pedido.pedidoStatus.id == 1}">-->
 				      		<button class="button is-link" id="${pedido.id}">Modificar</button>
 				      		<button class="button is-danger" id="rmvBtn_${pedido.id}">Remover</button>
-				      		</c:if>
+				    <!--  	</c:if>--> 
 				      		</td>
 				    	</tr>
 				  </tbody>
@@ -135,7 +135,6 @@
     	</div>
     </div>
 </div>
-
 
 </body>
 </html>
