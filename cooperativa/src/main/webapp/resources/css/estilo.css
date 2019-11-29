@@ -15,6 +15,17 @@
 	width: 100%;
 }
 
+.infoContent{
+	position: relative;
+	top: 50%;
+	transform: translateY(-50%);	
+}
+
+.tableInfo{
+	width: 100%;
+	padding: 10px;
+}
+
 .ventanaContent {
 	align-items: stretch;
     border-radius: 6px;

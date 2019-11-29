@@ -24,32 +24,36 @@
   		</p>
   		<ul class="menu-list">
   		
-  		<li><a href="/cooperativa/" > Inicio </a>
+  		<li><a href="/cooperativa/"> Inicio </a>
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
         	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
-        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>		
+        	<li><a href="/cooperativa/spring/mispedidos" >Mis Pedidos</a></li>	
       	</c:if>
 	</ul>
 	<p class="menu-label">
 		Perfil
   	</p>
   	<ul class="menu-list">
-  	<li><a href="/cooperativa/spring/usuarioinfo" class="is-active">Ver Información</a></li>
+  		<li><a href="/cooperativa/spring/usuarioinfo" class="is-active">Ver/Editar Información</a></li>
     	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>
 	</div>
-	<div class="pedidoContent">
+	<div class="infoContent">
     	<h1 class="title is-1">${usuarioFirmado.nombre},</h1>
     	<h3 class="subtitle is-3">Tu información es:</h3>
+    	<hr>Da click en modificar para modificar algún campo.
+    	<hr>Luego guarda los cambios con el botón "Guardar cambios".
     </div>
-    <div class="pedidoContent">
+    <div class="infoContent">
     	<form:form method="POST" action="editarInfo" modelAttribute="formUsuarioInfo">
-			<table class="tableInfoUsuario">
+			<table class="box tableInfo">
 				<tr>
 	            	<td><form:label path="username">Username</form:label></td>
 	                <td><form:input path="username" value="${usuarioFirmado.username}" disabled="true"/></td>

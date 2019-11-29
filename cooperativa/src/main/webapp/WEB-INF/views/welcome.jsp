@@ -24,6 +24,9 @@
   		<li><a href="/cooperativa/" class="is-active"> Inicio </a>
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
+        	
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
@@ -41,7 +44,8 @@
 	</aside>
 	</div>
     <div class="pedidoContent">
-    	<h1 class="title is-1">Bienvenido, ${usuarioFirmado.nombre}</h1>
+    	<h1 class="title is-1">Cooperativa de Consumo</h1>
+    	<h2 class="subtitle is-2">Bienvenid@, ${usuarioFirmado.nombre}</h2>
     	<h3 class="subtitle is-3">Selecciona la operación que quieras realizar en el menu izquierdo</h3>
     </div>
     </div>

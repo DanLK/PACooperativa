@@ -26,17 +26,20 @@
   		<li><a href="/cooperativa/"> Inicio </a>
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
         	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
-        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>	
+        	<li><a href="/cooperativa/spring/mispedidos" >Mis Pedidos</a></li>	
       	</c:if>
 	</ul>
 	<p class="menu-label">
 		Perfil
   	</p>
   	<ul class="menu-list">
+  		<li><a href="/cooperativa/spring/usuarioinfo">Ver/Editar Información</a></li>
     	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>
