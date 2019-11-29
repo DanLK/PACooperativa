@@ -46,6 +46,12 @@
 	margin-top: 20px;
 }
 
+.listaPrFll {
+	height: 80vh;
+	overflow-y: auto;
+	margin-top: 20px;
+}
+
 .tablePr {
 	width: 100%;
 }
@@ -71,4 +77,10 @@
 
 .divPedidoCodeGhost{
 	display: none;
+}
+
+.tableInfo{
+	margin-top: 400px;
+	width: 100%;
+	justify-content: center; 
 }

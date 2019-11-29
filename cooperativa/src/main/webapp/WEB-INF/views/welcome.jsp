@@ -31,6 +31,16 @@
         	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>		
       	</c:if>
 	</ul>
+	<c:if test="${usuarioFirmado.rol.id == 1}">
+     	<!-- <label><b>ERES ADMIN</b></label> -->
+     	<p class="menu-label">
+     		Productos
+		</p>
+		<ul class="menu-list">
+     		<li><a href="/cooperativa/spring/listarproductos">Listar Productos</a></li>
+     		<li><a href="/cooperativa/spring/nuevoproducto">Nuevo Producto</a></li>
+     	</ul>
+     </c:if>
 	<p class="menu-label">
 		Perfil
   	</p>
