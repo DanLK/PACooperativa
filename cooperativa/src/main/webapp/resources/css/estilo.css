@@ -25,6 +25,7 @@
     width: 100%;
 }
 
+
 .boxAdds {
 	width: 20%;
 	height: 96vh;
@@ -71,4 +72,10 @@
 
 .divPedidoCodeGhost{
 	display: none;
+}
+
+.tableInfoUsuario{
+	margin-top: 400px;
+	width: 100%;
+	justify-content: center; 
 }
