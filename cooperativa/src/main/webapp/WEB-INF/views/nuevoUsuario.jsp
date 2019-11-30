@@ -29,7 +29,7 @@
   		<p class="menu-label">
     		Pedidos
   		</p>	
-  		<ul>
+  		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
         </c:if>
@@ -63,6 +63,7 @@
 		Perfil
   	</p>
   	<ul class="menu-list">
+  		<li><a href="/cooperativa/spring/usuarioinfo">Ver Información</a></li>
     	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>

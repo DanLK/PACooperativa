@@ -61,6 +61,7 @@
 		Perfil
   	</p>
   	<ul class="menu-list">
+  		<li><a href="/cooperativa/spring/usuarioinfo">Ver Información</a></li>
     	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>

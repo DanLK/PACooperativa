@@ -7,11 +7,11 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="../../resources/css/bulma.min.css" rel="stylesheet">
-        <link href="../../resources/css/estilo.css" rel="stylesheet">
-        <script defer src="../../resources/js/fontawesome.js"></script>
-        <script defer src="../../resources/js/modificausuario.js"></script>
-        <title>Modificar Usuario</title>
+        <link href="resources/css/bulma.min.css" rel="stylesheet">
+        <link href="resources/css/estilo.css" rel="stylesheet">
+        <script defer src="resources/js/fontawesome.js"></script>
+        <script defer src="resources/js/usuarioinfo.js"></script>
+        <title>Información Usuario</title>
     </head>
     <body>
     <div class="ventanaContent">
@@ -63,64 +63,70 @@
 		Perfil
   	</p>
   	<ul class="menu-list">
-  		<li><a href="/cooperativa/spring/usuarioinfo">Ver Información</a></li>
+  		<li><a href="/cooperativa/spring/usuarioinfo" class="is-active">Ver Información</a></li>
     	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>
 	</div>
     <div class="usuarioContent">
     	<div class="box">
-    		<div style="text-align: center;"><label class="title is-3">Modificar Usuario ${usuarioID}</label></div>
+    		<div style="text-align: center;"><label class="title is-3">Modificar Usuario ${usuarioFirmado.getId()}</label></div>
     		<div class="column is-three-quarters">
-    			<form:form method="POST" action="../../modificarUsuario" id="modificarUsuarioForm" modelAttribute="formUsuarioInfo">
+    			<form:form method="POST" action="editarInfo" modelAttribute="formUsuarioInfo">
     			<div style="display:none;">
 				  <label class="label">ID</label>
 				  <div class="control">
-				    <form:input path="id" class="input" name="id" type="text" value="${usuario.getId()}" />
+				    <form:input path="id" class="input" name="id" type="text" value="${usuarioFirmado.getId()}" />
+				  </div>
+				</div>
+				<div style="display:none;">
+				  <label class="label">IDROL</label>
+				  <div class="control">
+				    <form:input path="idrol" class="input" name="idrol" type="text" value="${usuarioFirmado.getRol().getId()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Nombre</label>
 				  <div class="control">
-				    <form:input path="nombre" class="input" name="nombre" type="text" value="${usuario.getNombre()}" />
+				    <form:input path="nombre" class="input" name="nombre" type="text" value="${usuarioFirmado.getNombre()}" disabled="true"/>
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Apellidos</label>
 				  <div class="control">
-				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${usuario.getApellidos()}" />
+				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${usuarioFirmado.getApellidos()}" disabled="true"/>
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Username</label>
 				  <div class="control">
-				    <form:input path="username" class="input" name="username" type="text" value="${usuario.getUsername()}" />
+				    <form:input path="username" class="input" name="username" type="text" value="${usuarioFirmado.getUsername()}" disabled="true"/>
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Correo</label>
 				  <div class="control">
-				    <form:input path="correo" class="input" name="correo" type="text" value="${usuario.getCorreo()}" />
+				    <form:input path="correo" class="input" name="correo" type="text" value="${usuarioFirmado.getCorreo()}" disabled="true"/>
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Teléfono</label>
 				  <div class="control">
-				    <form:input path="telefono" class="input" name="telefono" type="text" value="${usuario.getTelefono()}" />
+				    <form:input path="telefono" class="input" name="telefono" type="text" value="${usuarioFirmado.getTelefono()}" disabled="true"/>
 				  </div>
 				</div>
 				
 				<div class="field">
 				  <label class="label">Password</label>
 				  <div class="control">
-				    <form:input path="password" class="input" name="password" type="text" value="${usuario.getPassword()}" />
+				    <form:input path="password" class="input" name="password" type="text" value="${usuarioFirmado.getPassword()}" disabled="true"/>
 				  </div>
 				</div>
 		
 		
 				<div style="text-align: center;">
-	    		<button class="button is-link" id="guardarUsuarioBtn" type="submit">Guardar Cambios de Usuario</button>
-	    		</div>
+	         		<input class="button is-link" type="submit" value="Guardar Cambios"/>
+	        	</div>
     			</form:form>
   
   
