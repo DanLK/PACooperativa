@@ -24,18 +24,34 @@
   		</p>
   		<ul class="menu-list">
   		
-  		<li><a href="/cooperativa/"> Inicio </a>
+  		<li><a href="/cooperativa/"> Inicio </a></li>
+  		</ul>
+  		
+  		<p class="menu-label">
+    		Pedidos
+  		</p>	
+  		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
         	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
-        	<li><a href="/cooperativa/spring/mispedidos" class="is-active">Mis Pedidos</a></li>	
+        	<li><a href="/cooperativa/spring/mispedidos" class="is-active" >Mis Pedidos</a></li>		
       	</c:if>
-	</ul>
+		</ul>
+	
 	<c:if test="${usuarioFirmado.rol.id == 1}">
-     	<!-- <label><b>ERES ADMIN</b></label> -->
+        	
+        	<p class="menu-label">
+    			Usuarios
+  			</p>
+        	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<ul class="menu-list">
+        		<li><a href="/cooperativa/spring/listarusuarios">Listar usuarios</a></li>
+        		<li><a href="/cooperativa/spring/nuevousuario">Nuevo Usuario</a></li>
+        	</ul>
+        	
      	<p class="menu-label">
      		Productos
 		</p>
@@ -135,7 +151,7 @@
     		</div>
     	</div>
     </div>
-
+	</div>
 
 </body>
 </html>

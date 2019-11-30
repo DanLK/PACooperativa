@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
     pageEncoding="UTF-8"%>
 <%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -10,8 +11,7 @@
         <link href="resources/css/bulma.min.css" rel="stylesheet">
         <link href="resources/css/estilo.css" rel="stylesheet">
         <script defer src="resources/js/fontawesome.js"></script>
-        <script defer src="resources/js/modificarProducto.js"></script>
-        <title>Modificar Producto</title>
+        <title>Nuevo Producto</title>
     </head>
     <body>
     <div class="ventanaContent">
@@ -23,18 +23,34 @@
   		</p>
   		<ul class="menu-list">
   		
-  		<li><a href="/cooperativa/"> Inicio </a>
+  		<li><a href="/cooperativa/"> Inicio </a></li>
+  		</ul>
+  		
+  		<p class="menu-label">
+    		Pedidos
+  		</p>	
+  		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
         	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
-        	<li><a href="/cooperativa/spring/mispedidos" >Mis Pedidos</a></li>	
+        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>		
       	</c:if>
-	</ul>
+		</ul>
+	
 	<c:if test="${usuarioFirmado.rol.id == 1}">
-     	<!-- <label><b>ERES ADMIN</b></label> -->
+        	
+        	<p class="menu-label">
+    			Usuarios
+  			</p>
+        	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<ul class="menu-list">
+        		<li><a href="/cooperativa/spring/listarusuarios">Listar usuarios</a></li>
+        		<li><a href="/cooperativa/spring/nuevousuario">Nuevo Usuario</a></li>
+        	</ul>
+        	
      	<p class="menu-label">
      		Productos
 		</p>
@@ -47,44 +63,55 @@
 		Perfil
   	</p>
   	<ul class="menu-list">
-  		<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
+    	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>
 	</div>
-	<div class="infoContent">
-    	<h1 class="title is-1">Modificar Producto: ${productoAModificar.id}</h1>
-    	<h3 class="subtitle is-3">La información actual es:</h3>
-    	<hr>Da click en modificar para modificar algún campo.
-    	<hr>Luego guarda los cambios con el botón "Guardar cambios".
-    </div>
-    <div class="infoContent">
+	
+	<div class="usuarioContent">
+    	<div class="box">
+    	<div style="text-align: center;"><label class="title is-3">Nuevo Producto</label></div>
+ 
+   <div class="column is-three-quarters">
     	<form:form method="POST" action="registrarproducto" modelAttribute="productoForm">
-			<table class="box tableInfo">
-	             <tr>
-	            	<td><form:label path="nombre">Nombre</form:label></td>
-	                <td><form:input path="nombre"/></td>
-	                
-	             </tr>
-	             <tr>
-	            	<td><form:label path="contenido">Contenido</form:label></td>
-	                <td><form:input path="contenido"/></td>
-	                
-	             </tr>
-	             <tr>
-	            	<td><form:label path="precio">Precio</form:label></td>
-	                <td><form:input path="precio"/></td>
-	                
-	             </tr>
-	              <tr>
-	            	<td><form:label path="departamento">Departamento</form:label></td>
-	                <td><form:input path="departamento"/></td>
-	             </tr>
-	             <tr>
-	             	<td colspan="2"><input type="submit" value="Agregar Nuevo Producto"/></td>
-	             </tr>
-	        </table>
+			
+			<div class="field">
+				<form:label class="label" path="nombre">Nombre</form:label>
+	            <div class="control">
+	            	<form:input class="input" path="nombre"/>
+	            </div>
+	        </div>
+	           
+	        <div class="field"> 
+				<form:label class="label" path="contenido">Contenido</form:label>
+	            <div class="control">
+	            <form:input class="input" path="contenido"/>
+	            </div>
+	        </div>
+	        
+	        <div class="field">
+	            <form:label class="label" path="precio">Precio</form:label>
+	            <div class="control">
+	            <form:input class="input" path="precio"/>
+	            </div>
+	        </div>
+	        
+	        <div class="field">  
+	            <form:label class="label" path="departamento">Departamento</form:label>
+	            <div class="control">
+	            <form:input class="input" path="departamento"/>
+	            </div>
+	        </div>
+	            
+	        <div style="text-align: center;">
+	         	<input class="button is-link" type="submit" value="Agregar Nuevo Producto"/>
+	        </div>
+	        
 		</form:form>
     </div>
     </div>
+    </div>
+    </div>
+    
 </body>
 </html>

@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
+import org.springframework.web.bind.annotation.SessionAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
 import mx.unam.pa.equipo4.cooperativa.formas.ProductoForm;
@@ -21,6 +22,7 @@ import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
 @Controller
+@SessionAttributes("usuarioFirmado")
 public class ProductosController {
 	@Autowired
 	ProductoService productoService;
@@ -37,6 +39,7 @@ public class ProductosController {
 			// Verificamos que el usuario es un administrador
 			if (usuarioEnSesion.getRol().getId() == 2) {
 				ModelAndView view = new ModelAndView();
+				view.addObject("usuarioFirmado", usuarioEnSesion);
 				view.setViewName("redirect:/");
 				return view;
 			}
@@ -69,7 +72,7 @@ public class ProductosController {
 				
 			// Creamos la vista con el formulario
 			ModelAndView mav = new ModelAndView("modificarProducto","productoForm", new ProductoForm());
-			
+			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			mav.addObject("productoAModificar", productoAModificar);
 			
 			return mav;
@@ -103,6 +106,7 @@ public class ProductosController {
 		productoService.actualizar(productoAModificar);
 		
 		view.setViewName("redirect:/listarproductos");
+		view.addObject("usuarioFirmado", usuarioEnSesion);
 		return view;
 	}
 	
@@ -122,6 +126,7 @@ public class ProductosController {
 			
 			ModelAndView view = new ModelAndView();
 			view.setViewName("redirect:/listarproductos");
+			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
 	}
 	
@@ -137,6 +142,7 @@ public class ProductosController {
 		if (usuarioEnSesion.getRol().getId() == 2) {
 			ModelAndView view = new ModelAndView();
 			view.setViewName("redirect:/");
+			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
 		}
 		
@@ -163,12 +169,14 @@ public class ProductosController {
 		// Verificamos que el usuario es un administrador
 		if (usuarioEnSesion.getRol().getId() == 2) {
 			view.setViewName("redirect:/");
+			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
 		}
 		
 		if( resultado.hasErrors() ) {
 			System.err.println("La validación de la forma de Pedido presentó errores");
 			view.setViewName("nuevoproducto");
+			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
 		}
 			
@@ -182,6 +190,7 @@ public class ProductosController {
 		productoService.guardar(nuevoProducto);
 		
 		view.setViewName("redirect:/listarproductos");
+		view.addObject("usuarioFirmado", usuarioEnSesion);
 		return view;
 	}
 	

@@ -15,7 +15,7 @@ function submitForma(ev){
 		containers[i].disabled=false;
 	}
 	
-	ev.currentTarget.parentElement.parentElement.parentElement.parentElement.parentElement.submit();
+	ev.currentTarget.parentElement.parentElement.submit();
 }
 
 window.onload = function() {
@@ -26,6 +26,7 @@ window.onload = function() {
 		var btnDisable = document.createElement("button");
 		btnDisable.id=i;
 		btnDisable.innerText="Modificar";
+		btnDisable.className="button";
 		inputContainer.appendChild(btnDisable);
 		btnDisable.addEventListener("click", disableInputForma);
 	}
