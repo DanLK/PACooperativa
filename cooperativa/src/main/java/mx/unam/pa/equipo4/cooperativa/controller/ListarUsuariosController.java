@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
 
 import mx.unam.pa.equipo4.cooperativa.formas.PedidoCodificadoForm;
+import mx.unam.pa.equipo4.cooperativa.formas.UsuarioInfoForm;
 import mx.unam.pa.equipo4.cooperativa.model.Pedido;
 import mx.unam.pa.equipo4.cooperativa.model.Producto;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
@@ -86,7 +87,7 @@ public class ListarUsuariosController {
 			usuarioService.eliminar(usuarioARemover);
 			
 			ModelAndView view = new ModelAndView();
-			view.setViewName("redirect:/listarUsuarios");
+			view.setViewName("redirect:/listarusuarios");
 			return view;
 	}
 	
@@ -108,7 +109,7 @@ public class ListarUsuariosController {
 			}
 			
 			// Agregamos al objeto de usuario en sesion
-			ModelAndView mav = new ModelAndView("modificaUsuario");
+			ModelAndView mav = new ModelAndView("modificaUsuario", "formUsuarioInfo", new UsuarioInfoForm());
 			mav.addObject("usuarioFirmado", usuarioEnSesion);  
 			
 			/*JSONObject o1 = new JSONObject();
@@ -126,65 +127,8 @@ public class ListarUsuariosController {
 			return mav;
 	}
 	
-	/*@GetMapping("/modificar/pedido/{pedidoId}")
-	public ModelAndView modificarPedido(
-			@PathVariable(name="pedidoId") int pedidoId,
-			@SessionAttribute(
-					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
-					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
-					Usuario usuarioEnSesion
-			) {
-			System.out.println("Dentro de modificarPedidoID()");
-			System.out.println("ID de pedido: " + pedidoId);
-		
-			  
-			// Solicitamos a la base de datos los productos disponibles
-			Pedido pedidoAModificar = pedidoService.getPedido(pedidoId);
-			
-			// Verificamos que el usuario sea el que hizo el pedido
-			if (pedidoAModificar.getUsuario().getId() != usuarioEnSesion.getId()) {
-				ModelAndView view = new ModelAndView("mispedidos");
-				view.addObject("usuarioFirmado", usuarioEnSesion);
-				return view;
-			}
-			
-			// Agregamos al objeto de usuario en sesion
-			ModelAndView mav = new ModelAndView("modificaMiPedido","pedidoCodificado", new PedidoCodificadoForm());
-			mav.addObject("usuarioFirmado", usuarioEnSesion);
-			List<ProductoPedido> productosEnPedido = productoPedidoService.listarProductoPedidosDePedido(pedidoAModificar);  
-			
-			// Iteramos sobre los objetos
-			JSONObject productosEnPedidoCodificados = new JSONObject();
-			for (int i = 0; i < productosEnPedido.size(); ++i) {
-				JSONObject o1 = new JSONObject();
-				o1.put("id", new Integer(productosEnPedido.get(i).getProducto().getId()));
-				o1.put("nombre", new String(productosEnPedido.get(i).getProducto().getNombre()));
-				if (StringUtils.isEmpty(productosEnPedido.get(i).getProducto().getContenido())) {
-					o1.put("contenido", new String());
-				} else {
-					o1.put("contenido", new String(productosEnPedido.get(i).getProducto().getContenido()));
-				}
-				o1.put("departamento", new String(productosEnPedido.get(i).getProducto().getDepartamento()));
-				o1.put("precioUnitario", new Float(productosEnPedido.get(i).getProducto().getPrecio()));
-				o1.put("cantidad", new Integer(productosEnPedido.get(i).getCantidad()));
-				o1.put("subtotal", new Float(productosEnPedido.get(i).getProducto().getPrecio() * productosEnPedido.get(i).getCantidad()));
-				productosEnPedidoCodificados.put(""+productosEnPedido.get(i).getProducto().getId(), o1);
-			}
-			
-			mav.addObject("pedidoID", pedidoAModificar.getId());
-			mav.addObject("productosEnPedido", productosEnPedidoCodificados.toString());
-			
-			// Solicitamos a la base de datos los productos disponibles
-			List<Producto> listaProductos = productoService.listarProductos();
-  
-			mav.addObject("listaProductos", listaProductos);
-			
-			return mav;
-	}
-	
-	@RequestMapping( value = "/modificarPedido", method = RequestMethod.POST )
-	public ModelAndView registrarPedido(
-			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
+	@RequestMapping( value = "/modificarUsuario", method = RequestMethod.POST )
+	public ModelAndView editarInfoUsuario(@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioform,
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
@@ -193,65 +137,26 @@ public class ListarUsuariosController {
 			ModelAndView view //  modelo a regresar
 		) {
 		
-		System.out.println(pedidoCodificado);
-		
-		String[] pedidoCodeString = pedidoCodificado.getPedidoCodigo().split("#");
-		int pedidoID = Integer.parseInt(pedidoCodeString[0]);
-		
 		if( resultado.hasErrors() ) {
-			System.err.println("La validación de la forma de Pedido presentó errores");
-			view.setViewName("/modificar/"+pedidoCodeString[0]);
+			System.err.println("La validación de la forma presentó errores");
+			view.setViewName("listarUsuarios");
+			view.addObject("usuarioFirmado", usuarioEnSesion); 
 			return view;
 		}
 		
-		Pedido pedidoParaProducto = pedidoService.getPedido(pedidoID);
-		pedidoService.desalojar(pedidoParaProducto);
-		pedidoParaProducto.setTotal(pedidoCodificado.getPedidoTotal());
-		pedidoService.actualizar(pedidoParaProducto);
+		System.out.println("id a modificar: " + usuarioform.getId());
 		
-		// Eliminamos los pedidoProductos que teniaPedidoStatus pedidoStatusNuevo = pedidoStatusService.getPedidoStatus(1);
-		List<ProductoPedido> productosQueTenia = productoPedidoService.listarProductoPedidosDePedido(pedidoParaProducto);
-		for (int i = 0; i < productosQueTenia.size(); ++i) {
-			productoPedidoService.eliminar(productosQueTenia.get(i));
-		}
+		Usuario aModificar = usuarioService.getUsuario(usuarioform.getId());
 		
-		// Agregamos los nuevos
-		String[] pedidoItemsString = pedidoCodeString[1].split(";");
-		for (int i = 0; i < pedidoItemsString.length; ++i) {
-			
-			String[] pedidoItemString = pedidoItemsString[i].split(",");
-			
-			int idItem = Integer.parseInt(pedidoItemString[0]);
-			int cantidad = Integer.parseInt(pedidoItemString[1]);
-			
-			Producto productoParaPedido = productoService.getProducto(idItem);
-			ProductoPedido nuevoProductoPedido = new ProductoPedido(cantidad, pedidoParaProducto, productoParaPedido);
-			productoPedidoService.guardar(nuevoProductoPedido);
-			
-		}
-		
-		view.setViewName("redirect:/mispedidos");
+		usuarioService.desalojar(aModificar);
+		aModificar.setNombre(usuarioform.getNombre());
+		usuarioService.actualizar(aModificar);
+		view.setViewName("redirect:/listarusuarios");
+		view.addObject("usuarioFirmado", usuarioEnSesion); 
 		return view;
 	}
 	
-	@GetMapping("/remover/pedido/{pedidoId}")
-	public ModelAndView removerPedido(
-			@PathVariable(name="pedidoId") int pedidoId,
-			@SessionAttribute(
-					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
-					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
-					Usuario usuarioEnSesion
-			) {
-			System.out.println("Dentro de modificarPedidoID()");
-			System.out.println("ID de pedido: " + pedidoId);
-			
-			Pedido pedidoARemover = pedidoService.getPedido(pedidoId);
-			pedidoService.eliminar(pedidoARemover);
-			
-			ModelAndView view = new ModelAndView();
-			view.setViewName("redirect:/mispedidos");
-			return view;
-	}*/
+	
 	
 	
 }

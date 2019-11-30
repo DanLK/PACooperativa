@@ -46,49 +46,58 @@
     	<div class="box">
     		<div style="text-align: center;"><label class="title is-3">Modificar Usuario ${usuarioID}</label></div>
     		<div class="column is-three-quarters">
-    			<form:form method="POST" action="../../modificarUsuario" id="modificarUsuarioForm">
+    			<form:form method="POST" action="../../modificarUsuario" id="modificarUsuarioForm" modelAttribute="formUsuarioInfo">
     			<div class="field">
 				  <label class="label">ID</label>
 				  <div class="control">
-				    <input class="input" name="id" type="text" value="${usuario.getId()}">
+				    <form:input path="id" class="input" name="id" type="text" value="${usuario.getId()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Nombre</label>
 				  <div class="control">
-				    <input class="input" name="nombre" type="text" value="${usuario.getNombre()}">
+				    <form:input path="nombre" class="input" name="nombre" type="text" value="${usuario.getNombre()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Apellidos</label>
 				  <div class="control">
-				    <input class="input" name="apellidos" type="text" value="${usuario.getApellidos()}">
+				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${usuario.getApellidos()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Username</label>
 				  <div class="control">
-				    <input class="input" name="username" type="text" value="${usuario.getUsername()}">
+				    <form:input path="username" class="input" name="username" type="text" value="${usuario.getUsername()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Correo</label>
 				  <div class="control">
-				    <input class="input" name="correo" type="text" value="${usuario.getCorreo()}">
+				    <form:input path="correo" class="input" name="correo" type="text" value="${usuario.getCorreo()}" />
 				  </div>
 				</div>
 				<div class="field">
 				  <label class="label">Teléfono</label>
 				  <div class="control">
-				    <input class="input" name="telefono" type="text" value="${usuario.getTelefono()}">
+				    <form:input path="telefono" class="input" name="telefono" type="text" value="${usuario.getTelefono()}" />
 				  </div>
 				</div>
+				
+				<div class="field">
+				  <label class="label">Password</label>
+				  <div class="control">
+				    <form:input path="password" class="input" name="password" type="password" value="${usuario.getPassword()}" />
+				  </div>
+				</div>
+		
+		
 				<div style="text-align: center;">
 	    		<button class="button is-link" id="guardarUsuarioBtn" type="submit">Guardar Cambios de Usuario</button>
 	    		</div>
     			</form:form>
-    			
-    			
+  
+  
     		</div>
     		
     	</div>
