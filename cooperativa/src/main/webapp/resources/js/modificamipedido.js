@@ -113,7 +113,16 @@ function guardarPedido() {
 	var codeGhostPedidoID = document.getElementById("codeGhostPedidoID");
 		
 	var registroFormCodigo = document.getElementById("registroFormCodigo");
-		registroFormCodigo.value = "" + codeGhostPedidoID.innerText + "#";
+	
+		//Verificamos si hay que codificar la entrada del select
+		var getSelects = document.getElementsByTagName("select");
+		registroFormCodigo.value = "";
+			
+		if (getSelects.length > 0) {
+			registroFormCodigo.value += getSelects[0].value + "$";
+		}
+			
+		registroFormCodigo.value += codeGhostPedidoID.innerText + "#";
 		
 		var keyList = Object.keys(listadoEnPedido);
 		keyList.forEach(function(key) {

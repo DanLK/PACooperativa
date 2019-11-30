@@ -32,6 +32,11 @@
   		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
+        	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
+        	<li><a href="/cooperativa/spring/pedidosentregados" >Pedidos Entregados</a></li>
+        	<li><a href="/cooperativa/spring/allpedidos" >Todos los Pedidos</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
@@ -73,6 +78,17 @@
     		<div><label class="title is-3">Modificar Pedido ${pedidoID}</label></div>
     		<div>
     			<div class="listaPd">
+    			<c:if test="${usuarioFirmado.rol.id == 1}">
+        			
+        			<div class="select">
+				    	<select>
+				    		<option value="1">Enviado (en espera de pago)</option>
+				    		<option value="2">Pagado</option>
+				    		<option value="3">Entregado</option>
+				    	</select>
+				  	</div>
+        		</c:if>
+    			
     			<table class="table tablePd">
 				  <thead>
 				    <tr>
@@ -142,7 +158,7 @@
     </div>
     </div>
     
-    	<form:form method="POST" action="../../modificarPedido" modelAttribute="pedidoCodificado" class="ghostForm" id="modificarPedidoForm">
+    	<form:form method="POST" action="${rutaAction}" modelAttribute="pedidoCodificado" class="ghostForm" id="modificarPedidoForm">
 			<table>
 				<tr>
 	            	<td><form:label path="pedidoCodigo">pedidoCodigo</form:label></td>

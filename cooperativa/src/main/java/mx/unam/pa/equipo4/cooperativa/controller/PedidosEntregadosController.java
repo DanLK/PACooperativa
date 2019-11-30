@@ -1,11 +1,6 @@
 package mx.unam.pa.equipo4.cooperativa.controller;
 
 import java.util.Collections;
-import java.util.List;
-
-import javax.validation.Valid;
-
-import java.util.HashMap;
 
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,9 +14,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.SessionAttribute;
 import org.springframework.web.servlet.ModelAndView;
+import java.util.HashMap;
+import java.util.List;
+
+import javax.validation.Valid;
 
 import mx.unam.pa.equipo4.cooperativa.formas.PedidoCodificadoForm;
 import mx.unam.pa.equipo4.cooperativa.model.Pedido;
+import mx.unam.pa.equipo4.cooperativa.model.PedidoStatus;
 import mx.unam.pa.equipo4.cooperativa.model.Producto;
 import mx.unam.pa.equipo4.cooperativa.model.ProductoPedido;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
@@ -31,7 +31,7 @@ import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
 @Controller
-public class MisPedidosController {
+public class PedidosEntregadosController {
 	
 	@Autowired
 	PedidoService pedidoService;
@@ -45,21 +45,21 @@ public class MisPedidosController {
 	@Autowired
 	ProductoPedidoService productoPedidoService;
 	
-	@GetMapping("/mispedidos")
-	public ModelAndView misPedidos(
+	@GetMapping("/pedidosentregados")
+	public ModelAndView pedidosEntregados(
 			  	@SessionAttribute(
 				name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 				required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 				Usuario usuarioEnSesion
 		) {
-			System.out.println("Mostrando Nuevo Pedido");
-			ModelAndView mav = new ModelAndView("misPedidos");
+			System.out.println("Mostrando Pedidos Entregados");
+			ModelAndView mav = new ModelAndView("pedidosEntregados");
 			
 			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			  
 			// Solicitamos a la base de datos los productos disponibles
-			List<Pedido> listaPedidos = pedidoService.listarPedidosUsuario(usuarioEnSesion);
+			List<Pedido> listaPedidos = pedidoService.listarPedidosEntregados();
 			Collections.reverse(listaPedidos);
 			HashMap<Integer, List<ProductoPedido>> productosEnPedidos = new HashMap<Integer, List<ProductoPedido>>();
 			for (Pedido pedido : listaPedidos) {
@@ -72,7 +72,7 @@ public class MisPedidosController {
 			return mav;
 	}
 	
-	@GetMapping("/modificar/pedido/{pedidoId}")
+	@GetMapping("/modificar/pedidoentregado/{pedidoId}")
 	public ModelAndView modificarPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -87,13 +87,13 @@ public class MisPedidosController {
 			// Solicitamos a la base de datos los productos disponibles
 			Pedido pedidoAModificar = pedidoService.getPedido(pedidoId);
 			
-			// Verificamos que el usuario sea el que hizo el pedido
+	/*		// Verificamos que el usuario sea el que hizo el pedido
 			if (pedidoAModificar.getUsuario().getId() != usuarioEnSesion.getId()) {
-				ModelAndView view = new ModelAndView("mispedidos");
+				ModelAndView view = new ModelAndView("pedidosSemana");
 				view.addObject("usuarioFirmado", usuarioEnSesion);
 				return view;
 			}
-			
+		*/	
 			// Agregamos al objeto de usuario en sesion
 			ModelAndView mav = new ModelAndView("modificaMiPedido","pedidoCodificado", new PedidoCodificadoForm());
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
@@ -119,7 +119,7 @@ public class MisPedidosController {
 			
 			mav.addObject("pedidoID", pedidoAModificar.getId());
 			mav.addObject("productosEnPedido", productosEnPedidoCodificados.toString());
-			mav.addObject("rutaAction", "../../modificarPedido");
+			mav.addObject("rutaAction", "../../modificarpedidoentregado");
 			
 			// Solicitamos a la base de datos los productos disponibles
 			List<Producto> listaProductos = productoService.listarProductos();
@@ -129,7 +129,7 @@ public class MisPedidosController {
 			return mav;
 	}
 	
-	@RequestMapping( value = "/modificarPedido", method = RequestMethod.POST )
+	@RequestMapping( value = "/modificarpedidoentregado", method = RequestMethod.POST )
 	public ModelAndView registrarPedido(
 			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
 			@SessionAttribute(
@@ -142,7 +142,10 @@ public class MisPedidosController {
 		
 		System.out.println(pedidoCodificado);
 		
-		String[] pedidoCodeString = pedidoCodificado.getPedidoCodigo().split("#");
+		String[] pedidoCodeStatusString = pedidoCodificado.getPedidoCodigo().split("\\$");
+		int pedidoStatusID = Integer.parseInt(pedidoCodeStatusString[0]);
+		
+		String[] pedidoCodeString = pedidoCodeStatusString[1].split("#");
 		int pedidoID = Integer.parseInt(pedidoCodeString[0]);
 		
 		if( resultado.hasErrors() ) {
@@ -151,9 +154,15 @@ public class MisPedidosController {
 			return view;
 		}
 		
+		// Obtenemos de la base de datos el status Pedido necesario
+		PedidoStatus pedidoStatusDelPedido = pedidoStatusService.getPedidoStatus(pedidoStatusID);
+		
 		Pedido pedidoParaProducto = pedidoService.getPedido(pedidoID);
 		pedidoService.desalojar(pedidoParaProducto);
+		
 		pedidoParaProducto.setTotal(pedidoCodificado.getPedidoTotal());
+		pedidoParaProducto.setPedidoStatus(pedidoStatusDelPedido);
+		
 		pedidoService.actualizar(pedidoParaProducto);
 		
 		// Eliminamos los pedidoProductos que teniaPedidoStatus pedidoStatusNuevo = pedidoStatusService.getPedidoStatus(1);
@@ -177,11 +186,11 @@ public class MisPedidosController {
 			
 		}
 		
-		view.setViewName("redirect:/mispedidos");
+		view.setViewName("redirect:/pedidosentregados");
 		return view;
 	}
 	
-	@GetMapping("/remover/pedido/{pedidoId}")
+	@GetMapping("/remover/pedidoentregado/{pedidoId}")
 	public ModelAndView removerPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
 			@SessionAttribute(
@@ -196,9 +205,8 @@ public class MisPedidosController {
 			pedidoService.eliminar(pedidoARemover);
 			
 			ModelAndView view = new ModelAndView();
-			view.setViewName("redirect:/mispedidos");
+			view.setViewName("redirect:/pedidosentregados");
 			return view;
 	}
-	
 	
 }

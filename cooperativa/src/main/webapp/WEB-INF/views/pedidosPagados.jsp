@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+<%@ page language="java" contentType="text/html; charset=ISO-8859-1" pageEncoding="ISO-8859-1" %>
 <%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix = "c" %>
 <%@ taglib prefix = "fmt" uri = "http://java.sun.com/jsp/jstl/fmt" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
@@ -10,8 +9,8 @@
 <link href="resources/css/bulma.min.css" rel="stylesheet">
 <link href="resources/css/estilo.css" rel="stylesheet">
 <script defer src="resources/js/fontawesome.js"></script>
-<script defer src="resources/js/mispedidos.js"></script>
-<title>Mis Pedidos</title>
+<script defer src="resources/js/pedidosPagados.js"></script>
+<title>Pedidos Pagados</title>
 </head>
 <body>
 
@@ -33,16 +32,16 @@
   		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
-        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidossemana">Pedidos Semana</a></li>
         	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
-        	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
+        	<li><a href="/cooperativa/spring/pedidospagados" class="is-active">Pedidos Pagados</a></li>
         	<li><a href="/cooperativa/spring/pedidosentregados" >Pedidos Entregados</a></li>
         	<li><a href="/cooperativa/spring/allpedidos" >Todos los Pedidos</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
         	<li><a href="/cooperativa/spring/nuevopedido">Nuevo Pedido</a></li>
-        	<li><a href="/cooperativa/spring/mispedidos" class="is-active" >Mis Pedidos</a></li>		
+        	<li><a href="/cooperativa/spring/mispedidos">Mis Pedidos</a></li>		
       	</c:if>
 		</ul>
 	
@@ -69,12 +68,12 @@
 		Perfil
   	</p>
   	<ul class="menu-list">
-  		<li><a href="/cooperativa/spring/usuarioinfo">Ver InformaciÃ³n</a></li>
-    	<li><a href="/cooperativa/spring/logout">Cerrar SesiÃ³n</a></li>
+  		<li><a href="/cooperativa/spring/usuarioinfo">Ver Información</a></li>
+    	<li><a href="/cooperativa/spring/logout">Cerrar Sesión</a></li>
   	</ul>
 	</aside>
 	</div>
-	
+
     <div class="pedidosListDiv">
     	<div class="box">
     		<div><label class="title is-3">Pedidos</label></div>
@@ -85,7 +84,10 @@
     			<table class="table tablePedidoListDiv">
 				  <thead>
 				    <tr>
-				      <th>ID</th>
+				      <th>ID Pedido</th>
+				      <th>ID Usuario</th>
+				      <th>Usuario nombre</th>
+				      <th>Usuario apellidos</th>
 				      <th>Fecha de Registro</th>
 				      <th>Total</th>
 				      <th>Status</th>
@@ -95,14 +97,17 @@
 				  <tbody>
 				  	<tr>
 				    		<th>${pedido.id}</th>
+				    		<td>${pedido.usuario.id}</td>
+				    		<td>${pedido.usuario.nombre}</td>
+				    		<td>${pedido.usuario.apellidos}</td>
 				      		<td><fmt:formatDate type = "date" value = "${pedido.fechaRegistro}" timeZone="GMT-6" /></td>
 				      		<td>${pedido.total}</td>
 				      		<td>${pedido.pedidoStatus.descripcion}</td>
 				      		<td>
-				      		<c:if test="${pedido.pedidoStatus.id == 1}">
+				      		
 				      		<button class="button is-link" id="${pedido.id}">Modificar</button>
 				      		<button class="button is-danger" id="rmvBtn_${pedido.id}">Remover</button>
-				      		</c:if>
+				      		
 				      		</td>
 				    	</tr>
 				  </tbody>
@@ -157,7 +162,8 @@
     		</div>
     	</div>
     </div>
-	</div>
+</div>
+
 
 </body>
 </html>

@@ -32,6 +32,11 @@
   		<ul class="menu-list">
   		<c:if test="${usuarioFirmado.rol.id == 1}">
         	<!-- <label><b>ERES ADMIN</b></label> -->
+        	<li><a href="/cooperativa/spring/pedidossemana" >Pedidos Semana</a></li>
+        	<li><a href="/cooperativa/spring/pedidosenviados" >Pedidos Enviados</a></li>
+        	<li><a href="/cooperativa/spring/pedidospagados" >Pedidos Pagados</a></li>
+        	<li><a href="/cooperativa/spring/pedidosentregados" >Pedidos Entregados</a></li>
+        	<li><a href="/cooperativa/spring/allpedidos" >Todos los Pedidos</a></li>
         </c:if>
         <c:if test="${usuarioFirmado.rol.id == 2}">
         	<!-- <label><b>ERES SOCIO</b></label>  -->
