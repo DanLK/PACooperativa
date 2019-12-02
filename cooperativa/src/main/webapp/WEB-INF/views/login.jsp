@@ -49,7 +49,6 @@
 	  	</div>
 		
 		<!--  <p>&iquest;A&uacute;n no eres miembro? <a href="usuario/registro3">Reg&iacute;strate</a></p> -->
-	</div>
 	
 </body>
 </html>
