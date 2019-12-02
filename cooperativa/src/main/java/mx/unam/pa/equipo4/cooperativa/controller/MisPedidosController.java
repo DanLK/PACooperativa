@@ -30,6 +30,7 @@ import mx.unam.pa.equipo4.cooperativa.service.PedidoStatusService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
+// Clase controlador para las operaciones sobre los pedidos del usuario en sesion
 @Controller
 public class MisPedidosController {
 	
@@ -45,6 +46,8 @@ public class MisPedidosController {
 	@Autowired
 	ProductoPedidoService productoPedidoService;
 	
+	// Definimos el metodo con las operaciones a realizar con /mispedidos,
+	//   que es mostrar todos los pedidos del usuario
 	@GetMapping("/mispedidos")
 	public ModelAndView misPedidos(
 			  	@SessionAttribute(
@@ -58,20 +61,36 @@ public class MisPedidosController {
 			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			  
-			// Solicitamos a la base de datos los productos disponibles
+			// Solicitamos a la base de datos TODOS los pedidos del usuario
 			List<Pedido> listaPedidos = pedidoService.listarPedidosUsuario(usuarioEnSesion);
+			
+			// Revertimos los pedidos para mostrar los mas nuevos primeros 
 			Collections.reverse(listaPedidos);
+			
+			// Preparamos una tabla hash para guardar una lista de productos por pedido
 			HashMap<Integer, List<ProductoPedido>> productosEnPedidos = new HashMap<Integer, List<ProductoPedido>>();
+			
+			// Recorremos los pedidos
 			for (Pedido pedido : listaPedidos) {
+				
+				// Solicitamos a la base de datos los productos del pedido actual
 				List<ProductoPedido> productosEnPedido = productoPedidoService.listarProductoPedidosDePedido(pedido);
+				
+				// Guardamos la lista de productos con el identificador del pedido correspondiente
 				productosEnPedidos.put(pedido.getId(), productosEnPedido);
 			}
-			  
+			
+			// Agregamos a la vista el objeto con la lista de pedidos
 			mav.addObject("listaPedidos", listaPedidos);
+			
+			// Agregamos a la vista el objeto de la tabla hash con los productos por pedido
 			mav.addObject("productosEnPedidos", productosEnPedidos);
+			
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificar/pedido/{pedidoId},
+	//   que es mostrar la vista de modificacion de pedido con la informacion del pedido con el identificador pedidoId
 	@GetMapping("/modificar/pedido/{pedidoId}")
 	public ModelAndView modificarPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
@@ -84,7 +103,7 @@ public class MisPedidosController {
 			System.out.println("ID de pedido: " + pedidoId);
 		
 			  
-			// Solicitamos a la base de datos los productos disponibles
+			// Obtenemos el pedido a modificar
 			Pedido pedidoAModificar = pedidoService.getPedido(pedidoId);
 			
 			// Verificamos que el usuario sea el que hizo el pedido
@@ -94,15 +113,25 @@ public class MisPedidosController {
 				return view;
 			}
 			
-			// Agregamos al objeto de usuario en sesion
+			// Usamos la vista modificaMiPedido y agregamos el form requerido
 			ModelAndView mav = new ModelAndView("modificaMiPedido","pedidoCodificado", new PedidoCodificadoForm());
+			
+			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
+			
+			// Obtenemos los productos del pedido de la base de datos
 			List<ProductoPedido> productosEnPedido = productoPedidoService.listarProductoPedidosDePedido(pedidoAModificar);  
 			
-			// Iteramos sobre los objetos
+			// Codificaremos el pedido en formato JSON para su uso en la vista por Javascript
 			JSONObject productosEnPedidoCodificados = new JSONObject();
+			
+			// Recorreremos los productos en el pedido
 			for (int i = 0; i < productosEnPedido.size(); ++i) {
+				
+				// Inicializamos el objeto JSON para el producto actual
 				JSONObject o1 = new JSONObject();
+				
+				// Asignamos sus atributos
 				o1.put("id", new Integer(productosEnPedido.get(i).getProducto().getId()));
 				o1.put("nombre", new String(productosEnPedido.get(i).getProducto().getNombre()));
 				if (StringUtils.isEmpty(productosEnPedido.get(i).getProducto().getContenido())) {
@@ -114,21 +143,31 @@ public class MisPedidosController {
 				o1.put("precioUnitario", new Float(productosEnPedido.get(i).getProducto().getPrecio()));
 				o1.put("cantidad", new Integer(productosEnPedido.get(i).getCantidad()));
 				o1.put("subtotal", new Float(productosEnPedido.get(i).getProducto().getPrecio() * productosEnPedido.get(i).getCantidad()));
+				
+				// Agregamos el producto actual al objeto del pedido
 				productosEnPedidoCodificados.put(""+productosEnPedido.get(i).getProducto().getId(), o1);
 			}
 			
+			// Agregamos a la vista el identificador del pedido
 			mav.addObject("pedidoID", pedidoAModificar.getId());
+			
+			// Agregamos a la vista el objeto JSON con los productos del pedido codificados en JSON
 			mav.addObject("productosEnPedido", productosEnPedidoCodificados.toString());
+			
+			// Agregamos la ruta a donde se enviara el submit del form con la informacion modificada del pedido
 			mav.addObject("rutaAction", "../../modificarPedido");
 			
 			// Solicitamos a la base de datos los productos disponibles
 			List<Producto> listaProductos = productoService.listarProductos();
-  
+			
+			// Agregamos la lista de productos a la vista
 			mav.addObject("listaProductos", listaProductos);
 			
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificarPedido,
+	//   que es guardar los cambios realizados a un pedido y redirigir al usuario al listado de pedidos
 	@RequestMapping( value = "/modificarPedido", method = RequestMethod.POST )
 	public ModelAndView registrarPedido(
 			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
@@ -140,8 +179,13 @@ public class MisPedidosController {
 			ModelAndView view //  modelo a regresar
 		) {
 		
+		// Se obtiene el pedido codificado el cual esta conformado de la siguiente manera:
+		// <identificador_pedido>#<codificacion_de_productos>
+		// Donde a su vez <codificacion_de_productos> es de la forma:
+		// <id_de_producto_1>,<cantidad_producto_1>;<id_de_producto_2>,<cantidad_producto_2>;...;<id_de_producto_n>,<cantidad_producto_n>
 		System.out.println(pedidoCodificado);
 		
+		// Obtenemos el identificador del pedido que esta antes de "#" en la codificacion
 		String[] pedidoCodeString = pedidoCodificado.getPedidoCodigo().split("#");
 		int pedidoID = Integer.parseInt(pedidoCodeString[0]);
 		
@@ -151,12 +195,17 @@ public class MisPedidosController {
 			return view;
 		}
 		
+		// Obtenemos de la base de datos el pedido necesario
 		Pedido pedidoParaProducto = pedidoService.getPedido(pedidoID);
+		
+		// Desalojamos el pedido
 		pedidoService.desalojar(pedidoParaProducto);
+		
+		// Actualizamos el valor del total y Status del pedido modificado
 		pedidoParaProducto.setTotal(pedidoCodificado.getPedidoTotal());
 		pedidoService.actualizar(pedidoParaProducto);
 		
-		// Eliminamos los pedidoProductos que teniaPedidoStatus pedidoStatusNuevo = pedidoStatusService.getPedidoStatus(1);
+		// Eliminamos los pedidoProductos que tenia
 		List<ProductoPedido> productosQueTenia = productoPedidoService.listarProductoPedidosDePedido(pedidoParaProducto);
 		for (int i = 0; i < productosQueTenia.size(); ++i) {
 			productoPedidoService.eliminar(productosQueTenia.get(i));
@@ -166,13 +215,20 @@ public class MisPedidosController {
 		String[] pedidoItemsString = pedidoCodeString[1].split(";");
 		for (int i = 0; i < pedidoItemsString.length; ++i) {
 			
+			// Decodificamos los productos que estan de la forma:
+			// <id_de_producto_1>,<cantidad_producto_1>;<id_de_producto_2>,<cantidad_producto_2>;...;<id_de_producto_n>,<cantidad_producto_n>
 			String[] pedidoItemString = pedidoItemsString[i].split(",");
 			
 			int idItem = Integer.parseInt(pedidoItemString[0]);
 			int cantidad = Integer.parseInt(pedidoItemString[1]);
 			
+			// Obtenemos el producto de la base de datos
 			Producto productoParaPedido = productoService.getProducto(idItem);
+			
+			// Creamos una nueva instancia de producto pedido 
 			ProductoPedido nuevoProductoPedido = new ProductoPedido(cantidad, pedidoParaProducto, productoParaPedido);
+			
+			// Guardamos la nueva instancia en la base de datos
 			productoPedidoService.guardar(nuevoProductoPedido);
 			
 		}
@@ -181,6 +237,8 @@ public class MisPedidosController {
 		return view;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /remover/allpedidos/{pedidoId},
+	//   que es remover el pedido identificado por pedidoId
 	@GetMapping("/remover/pedido/{pedidoId}")
 	public ModelAndView removerPedido(
 			@PathVariable(name="pedidoId") int pedidoId,
@@ -192,7 +250,10 @@ public class MisPedidosController {
 			System.out.println("Dentro de modificarPedidoID()");
 			System.out.println("ID de pedido: " + pedidoId);
 			
+			// Obtenemos el objeto de la base de datos
 			Pedido pedidoARemover = pedidoService.getPedido(pedidoId);
+			
+			// Eliminamos la instancia de la base de datos
 			pedidoService.eliminar(pedidoARemover);
 			
 			ModelAndView view = new ModelAndView();

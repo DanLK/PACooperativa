@@ -21,12 +21,15 @@ import mx.unam.pa.equipo4.cooperativa.model.Producto;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
+// Clase controlador para las operaciones sobre los productos
 @Controller
 @SessionAttributes("usuarioFirmado")
 public class ProductosController {
 	@Autowired
 	ProductoService productoService;
 	
+	// Definimos el metodo con las operaciones a realizar con /listarproductos,
+	//   que es mostrar la lista de productos
 	@GetMapping("/listarproductos")
 	public ModelAndView listarPedidos(
 			  	@SessionAttribute(
@@ -56,6 +59,8 @@ public class ProductosController {
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificar/producto/{productoId},
+	//   que es mostrar la vista de modificacion de producto con la informacion del producto con el identificador productoId
 	@GetMapping("/modificar/producto/{productoId}")
 	public ModelAndView modificarPedido(
 			@PathVariable(name="productoId") int productoId,
@@ -67,17 +72,23 @@ public class ProductosController {
 			System.out.println("Dentro de modificarProductoID()");
 			System.out.println("ID de pedido: " + productoId);
 		  
-			// Solicitamos a la base de datos los productos disponibles
+			// Obtenemos la instancia del producto de la base de datos
 			Producto productoAModificar = productoService.getProducto(productoId);
 				
 			// Creamos la vista con el formulario
 			ModelAndView mav = new ModelAndView("modificarProducto","productoForm", new ProductoForm());
+			
+			// Agregamos el objeto del usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
+			
+			// Agregamos el objeto del producto a modificar
 			mav.addObject("productoAModificar", productoAModificar);
 			
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificarProducto,
+	//   que es guardar los cambios realizados a un producto y redirigir al usuario al listado de productos
 	@RequestMapping( value = "/modificarProducto", method = RequestMethod.POST )
 	public ModelAndView guardarCambiosProducto(
 			@Valid @ModelAttribute("productoForm") ProductoForm productoForm,
@@ -95,14 +106,19 @@ public class ProductosController {
 			return view;
 		}
 		
+		// Obtenemos la instancia de la base de datos del producto a modificar
 		Producto productoAModificar = productoService.getProducto(productoForm.getId());
+		
+		// Desalojamos la instancia del producto a modificar
 		productoService.desalojar(productoAModificar);
 		
+		// Actualizamos la informacion del producto a modificar
 		productoAModificar.setNombre(productoForm.getNombre());
 		productoAModificar.setContenido(productoForm.getContenido());
 		productoAModificar.setPrecio(productoForm.getPrecio());
 		productoAModificar.setDepartamento(productoForm.getDepartamento());
 		
+		// Actualizamos la instancia en la base de datos
 		productoService.actualizar(productoAModificar);
 		
 		view.setViewName("redirect:/listarproductos");
@@ -110,6 +126,8 @@ public class ProductosController {
 		return view;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /remover/producto/{productoId},
+	//   que es remover el producto identificado por productoId
 	@GetMapping("/remover/producto/{productoId}")
 	public ModelAndView removerProducto(
 			@PathVariable(name="productoId") int productoId,
@@ -121,7 +139,10 @@ public class ProductosController {
 			System.out.println("Dentro de removerProductoID()");
 			System.out.println("ID de producto: " + productoId);
 			
+			// Obtenemos la instancia de la base de datos del producto a remover
 			Producto productoARemover = productoService.getProducto(productoId);
+			
+			// Llamamos el servicio para eliminar la instancia del producto
 			productoService.eliminar(productoARemover);
 			
 			ModelAndView view = new ModelAndView();
@@ -130,6 +151,8 @@ public class ProductosController {
 			return view;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /nuevoproducto,
+	//   que es mostrar el formulario para agregar un nuevo usuario
 	@GetMapping("/nuevoproducto")
 	public ModelAndView nuevoProducto(
 			  	@SessionAttribute(
@@ -147,6 +170,8 @@ public class ProductosController {
 		}
 		
 		System.out.println("Mostrando Nuevo Producto");
+		
+		// Instanciamos la vista de nuevo producto y agregamos la forma necesaria
 		ModelAndView mav = new ModelAndView("nuevoProducto","productoForm", new ProductoForm());
 		  
 		// Agregamos al objeto de usuario en sesion
@@ -155,6 +180,8 @@ public class ProductosController {
 		return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /registrarproducto,
+	//  que es agregar un nuevo producto con la informacion que fue enviada en el formulario
 	@RequestMapping( value = "/registrarproducto", method = RequestMethod.POST )
 	public ModelAndView registrarProducto(
 			@Valid @ModelAttribute("productoForm") ProductoForm productoForm,
@@ -180,6 +207,7 @@ public class ProductosController {
 			return view;
 		}
 			
+		// Creamos una nueva instancia de producto con la infromacion del formulario
 		Producto nuevoProducto = new Producto(
 				productoForm.getNombre(),
 				productoForm.getContenido(),
@@ -187,6 +215,7 @@ public class ProductosController {
 				productoForm.getDepartamento()
 			);
 		
+		// Guardamos el producto en la base de datos
 		productoService.guardar(nuevoProducto);
 		
 		view.setViewName("redirect:/listarproductos");

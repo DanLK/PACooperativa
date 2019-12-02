@@ -7,30 +7,39 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+// Definicion de la clase entidad para la tabla producto
 @Entity
 @Table(name = "producto")
 public class Producto {
+	
+	// Atributo de identificacion id
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "producto_id")
 	private int id;
 	
+	// Atributo de nombre del producto
 	@Column(name = "nombre", nullable = false, length = 255)
 	private String nombre;
 	
+	// Atributo que describe el contenido del producto (1 pza, 100 gr, 1 caja, etc.)
 	@Column(name = "contenido", length = 45)
 	private String contenido;
 	
+	// Atributo que describe el precio por unidad del producto
 	@Column(name = "precio", nullable = false)
 	private float precio;
 	
+	// Atributo que describe a que departamento pertence el producto (Productos del mar, Huevo y lacteos, Frutas y verduras, etc.)
 	@Column(name = "departamento", length = 45)
 	private String departamento;
 	
+	// Constructor default
 	public Producto() {
 		super();
 	}
 	
+	// Constructor con todos los atributos excepto el identificador
 	public Producto(String nombre, String contenido, float precio, String departamento) {
 		super();
 		this.nombre = nombre;
@@ -79,6 +88,7 @@ public class Producto {
 		this.departamento = departamento;
 	}
 	
+	// Metodo para imprimir el contenido del objeto
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

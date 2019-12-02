@@ -11,29 +11,37 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+// Definicion de la clase entidad para la tabla producto_pedido
 @Entity
 @Table(name = "producto_pedido")
 public class ProductoPedido {
+	
+	// Atributo de identificacion id
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "producto_pedido_id")
 	private int id;
 	
+	// Atributo que describe cuantas unidades del producto estan en el pedido
 	@Column(name = "cantidad", nullable = false)
 	private int cantidad;
 	
+	// Atributo que es de tipo Pedido que es el pedido al que pertenece
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "pedido_pedido_id")
 	private Pedido pedido;
 	
+	// Atributo quue es de tipo Producto que identifica a cual producto hace referencia
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "producto_producto_id")
 	private Producto producto;
 	
+	// Constructor default
 	public ProductoPedido() {
 		super();
 	}
 	
+	// Constructor con todos los atributos excepto el id
 	public ProductoPedido(int cantidad, Pedido pedido, Producto producto) {
 		super();
 		this.cantidad = cantidad;
@@ -73,6 +81,7 @@ public class ProductoPedido {
 		this.pedido = pedido;
 	}
 	
+	// Metodo para imprimir el contenido del objeto
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

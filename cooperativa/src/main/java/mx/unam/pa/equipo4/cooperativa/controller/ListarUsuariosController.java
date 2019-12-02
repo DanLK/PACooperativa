@@ -26,6 +26,7 @@ import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 import mx.unam.pa.equipo4.cooperativa.service.RolService;
 import mx.unam.pa.equipo4.cooperativa.service.UsuarioService;
 
+//Clase controlador para las operaciones sobre los usuarios
 @Controller
 public class ListarUsuariosController {
 	
@@ -47,6 +48,8 @@ public class ListarUsuariosController {
 	@Autowired
 	UsuarioService usuarioService;
 	
+	// Definimos el metodo con las operaciones a realizar con /listarusuarios,
+	//   que es mostrar todos los usuarios
 	@GetMapping("/listarusuarios")
 	public ModelAndView listarUsuarios(
 			  	@SessionAttribute(
@@ -60,27 +63,33 @@ public class ListarUsuariosController {
 			// Agregamos al objeto de usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);
 			  
-			// Solicitamos a la base de datos los productos disponibles
+			// Solicitamos a la base de datos los usuarios
 			List<Usuario> listaUsuarios = usuarioService.listarUsuarios();
+			
+			// Revertimos la lista para mostrar primero a los mas nuevos
 			Collections.reverse(listaUsuarios);
-		
-			  
+			
+			// Agregamos la lista de usuarios a la vista
 			mav.addObject("listaUsuarios", listaUsuarios);
+			
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /remover/usuario/{usuarioId},
+	//   que es remover al usuario con el identificador usuarioId
 	@GetMapping("/remover/usuario/{usuarioId}")
-	public ModelAndView removerPedido(
+	public ModelAndView removerUsuario(
 			@PathVariable(name="usuarioId") int usuarioId,
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 					Usuario usuarioEnSesion
 			) {
-			// System.out.println("Dentro de modificarPedidoID()");
-			// System.out.println("ID de pedido: " + pedidoId);
 			
+			// Obtenemos la instancia de la base de datos
 			Usuario usuarioARemover = usuarioService.getUsuario(usuarioId);
+			
+			// Llamamos el servicio para eliminar al usuario
 			usuarioService.eliminar(usuarioARemover);
 			
 			ModelAndView view = new ModelAndView();
@@ -88,6 +97,8 @@ public class ListarUsuariosController {
 			return view;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificar/usuario/{usuarioId},
+	//   que es mostrar la vista para modificar usuario con la informacion del usuario del identificador usuarioId
 	@GetMapping("/modificar/usuario/{usuarioId}")
 	public ModelAndView modificarUsuario(
 			@PathVariable(name="usuarioId") int usuarioId,
@@ -96,34 +107,34 @@ public class ListarUsuariosController {
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 					Usuario usuarioEnSesion
 			) {
+		
+			// Obtenemos la instancia de la base de datos
 			Usuario usuarioAModificar = usuarioService.getUsuario(usuarioId);
 			
-			
+			// Verificamos que no modifiquemos al mismo usuario con el que estamos logeados
 			if (usuarioAModificar.getId() == usuarioEnSesion.getId()) {
 				ModelAndView view = new ModelAndView("listarUsuarios");
 				view.addObject("usuarioFirmado", usuarioEnSesion);
 				return view;
 			}
 			
-			// Agregamos al objeto de usuario en sesion
+			// Agregamos el formulario a la vista de modificar usuario 
 			ModelAndView mav = new ModelAndView("modificaUsuario", "formUsuarioInfo", new UsuarioInfoForm());
+			
+			// Agregamos el usuario en sesion
 			mav.addObject("usuarioFirmado", usuarioEnSesion);  
 			
-			/*JSONObject o1 = new JSONObject();
-			o1.put("id", new Integer(usuarioAModificar.getId()));
-			o1.put("nombre", new String(usuarioAModificar.getNombre()));
-			o1.put("apellidos", new String(usuarioAModificar.getApellidos()));
-			o1.put("username", new String(usuarioAModificar.getUsername()));
-			o1.put("correo", new String(usuarioAModificar.getCorreo()));
-			o1.put("telefono", new String(usuarioAModificar.getTelefono()));*/
-			
-			
-			//mav.addObject("usuarioMod", o1.toString());
+			// Agregamos el id del usuario a modificar
 			mav.addObject("usuarioID", usuarioAModificar.getId());	
+			
+			// Agregamos la instancia del usuario a modificar
 			mav.addObject("usuario", usuarioAModificar);	
+			
 			return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /modificarUsuario,
+	//   que es modificar el usuario con la informacion que fue enviada en el formulario
 	@RequestMapping( value = "/modificarUsuario", method = RequestMethod.POST )
 	public ModelAndView editarInfoUsuario(@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioform,
 			@SessionAttribute(
@@ -143,10 +154,13 @@ public class ListarUsuariosController {
 		
 		System.out.println("id a modificar: " + usuarioform.getId());
 		
+		// Obtenemos la instancia del usuario a modificar
 		Usuario aModificar = usuarioService.getUsuario(usuarioform.getId());
 		
+		// Desalojamos la instancia del usuario a modificar
 		usuarioService.desalojar(aModificar);
 		
+		// Actualizamos los atributos del usuario
 		aModificar.setNombre(usuarioform.getNombre());
 		aModificar.setApellidos(usuarioform.getApellidos());
 		aModificar.setUsername(usuarioform.getUsername());
@@ -154,13 +168,16 @@ public class ListarUsuariosController {
 		aModificar.setCorreo( usuarioform.getCorreo());
 		aModificar.setTelefono(usuarioform.getTelefono());
 		
+		// Actualizamos la instancia en la base de datos
 		usuarioService.actualizar(aModificar);
+		 
 		view.setViewName("redirect:/listarusuarios");
 		view.addObject("usuarioFirmado", usuarioEnSesion); 
 		return view;
 	}
 	
-	
+	// Definimos el metodo con las operaciones a realizar con /nuevousuario,
+	//   que es mostrar el formulario para agregar un nuevo usuario
 	@GetMapping("/nuevousuario")
 	public ModelAndView nuevoUsuario(
 			  	@SessionAttribute(
@@ -169,8 +186,8 @@ public class ListarUsuariosController {
 				Usuario usuarioEnSesion
 		) {
 		
-		// Verificamos que el usuario es un administrador
-		if (usuarioEnSesion.getRol().getId() == 2) {
+		// Verificamos que el usuario en sesion es un administrador
+		if (usuarioEnSesion.getRol().getId() == 2) { // En caso de ser socio lo redireccionamos
 			ModelAndView view = new ModelAndView();
 			view.setViewName("redirect:/");
 			view.addObject("usuarioFirmado", usuarioEnSesion);
@@ -178,6 +195,8 @@ public class ListarUsuariosController {
 		}
 		
 		System.out.println("Mostrando Nuevo Usuario");
+		
+		// Mostramos la vista y agregamos el formulario necesario
 		ModelAndView mav = new ModelAndView("nuevoUsuario", "formUsuarioInfo", new UsuarioInfoForm());
 		  
 		// Agregamos al objeto de usuario en sesion
@@ -186,6 +205,8 @@ public class ListarUsuariosController {
 		return mav;
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /registrarusuario,
+	//  que es agregar un nuevo usuario con la informacion que fue enviada en el formulario
 	@RequestMapping( value = "/registrarusuario", method = RequestMethod.POST )
 	public ModelAndView registrarUsuario(
 			@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioForm,
@@ -197,8 +218,8 @@ public class ListarUsuariosController {
 			ModelAndView view //  modelo a regresar
 		) {
 		
-		// Verificamos que el usuario es un administrador
-		if (usuarioEnSesion.getRol().getId() == 2) {
+		// Verificamos que el usuario en sesion es un administrador
+		if (usuarioEnSesion.getRol().getId() == 2) { // En caso de ser socio lo redirigimos
 			view.setViewName("redirect:/");
 			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
@@ -225,13 +246,12 @@ public class ListarUsuariosController {
 				rolNuevoUsuario
 				);
 		
+		// Guardamos el usuario en la base de datos
 		usuarioService.guardar(nuevoUsuario);
 		
 		view.setViewName("redirect:/listarusuarios");
 		view.addObject("usuarioFirmado", usuarioEnSesion);
 		return view;
 	}
-	
-	
 	
 }

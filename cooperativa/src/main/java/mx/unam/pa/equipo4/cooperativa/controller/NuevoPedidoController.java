@@ -26,6 +26,7 @@ import mx.unam.pa.equipo4.cooperativa.service.PedidoStatusService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoPedidoService;
 import mx.unam.pa.equipo4.cooperativa.service.ProductoService;
 
+// Clase controlador para las operaciones sobre nuevos pedidos
 @Controller
 public class NuevoPedidoController {
 	
@@ -41,6 +42,8 @@ public class NuevoPedidoController {
 	@Autowired
 	ProductoPedidoService productoPedidoService;
 	
+	// Definimos el metodo con las operaciones a realizar con /nuevopedido,
+	//   que es mostrar la vista con el formulario para agregar un nuevo pedido
 	@GetMapping("/nuevopedido")
 	  public ModelAndView nuevoPedido(
 			  	@SessionAttribute(
@@ -49,6 +52,8 @@ public class NuevoPedidoController {
 				Usuario usuarioEnSesion
 		) {
 		  System.out.println("Mostrando Nuevo Pedido");
+		  
+		  // Agregar vista y el formulario para nuevo pedido 
 		  ModelAndView mav = new ModelAndView("nuevoPedido","pedidoCodificado", new PedidoCodificadoForm());
 		  
 		  // Agregamos al objeto de usuario en sesion
@@ -57,10 +62,14 @@ public class NuevoPedidoController {
 		  // Solicitamos a la base de datos los productos disponibles
 		  List<Producto> listaProductos = productoService.listarProductos();
 		  
+		  // Agregar la lista de productos a la vista
 		  mav.addObject("listaProductos", listaProductos);
+		  
 		  return mav;
-		}
+	}
 	
+	// Definimos el metodo con las operaciones a realizar con /registrarPedido,
+	//   que es registrar un nuevo pedido con la informacion del formulario
 	@RequestMapping( value = "/registrarPedido", method = RequestMethod.POST )
 	public ModelAndView registrarPedido(
 			@Valid @ModelAttribute("pedidoCodificado") PedidoCodificadoForm pedidoCodificado,
@@ -80,23 +89,36 @@ public class NuevoPedidoController {
 		
 		System.out.println(pedidoCodificado);
 		
+		// obtenemos la instancia del Pedido Status con id 1 (Pedido enviado) 
 		PedidoStatus pedidoStatusNuevo = pedidoStatusService.getPedidoStatus(1);
 		
+		// Creamos una nueva instancia de Pedido
 		Pedido nuevoPedido = new Pedido(new Date(), pedidoCodificado.getPedidoTotal(), pedidoStatusNuevo, usuarioEnSesion);
+		
+		// Guardamos el pedido en la base de datos
 		pedidoService.guardar(nuevoPedido);
+		
+		// Obtenemos el pedido recientemente registrado
 		Pedido pedidoParaProducto = pedidoService.listarUltimosPedidos(1).get(0);
 		
+		// Recorremos los productos codificados que estan de la forma:
+		// <id_de_producto_1>,<cantidad_producto_1>;<id_de_producto_2>,<cantidad_producto_2>;...;<id_de_producto_n>,<cantidad_producto_n>
 		String[] pedidoItemsString = pedidoCodificado.getPedidoCodigo().split(";");
-		
 		for (int i = 0; i < pedidoItemsString.length; ++i) {
 			
+			// Obtenemos el id de producto y su cantidad
 			String[] pedidoItemString = pedidoItemsString[i].split(",");
 			
 			int idItem = Integer.parseInt(pedidoItemString[0]);
 			int cantidad = Integer.parseInt(pedidoItemString[1]);
 			
+			// Obtenemos la instancia del producto de la base de datos
 			Producto productoParaPedido = productoService.getProducto(idItem);
+			
+			// Creamos una nueva instancia de Producto Pedido
 			ProductoPedido nuevoProductoPedido = new ProductoPedido(cantidad, pedidoParaProducto, productoParaPedido);
+			
+			// Guardamos la nueva instancia en la base de datos
 			productoPedidoService.guardar(nuevoProductoPedido);
 			
 		}

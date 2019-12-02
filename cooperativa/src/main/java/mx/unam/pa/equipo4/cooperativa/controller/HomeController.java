@@ -8,9 +8,12 @@ import org.springframework.web.servlet.ModelAndView;
 import mx.unam.pa.equipo4.cooperativa.formas.LoginFrm;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 
-
+// Clase controlador para las operaciones sobre la pagina de inicio
 @Controller
 public class HomeController {
+	
+	// Definimos el metodo con las operaciones a realizar con /,
+	//   que es validar si el usuario tiene sesion para mostrarle la pagina de inicio o el login en otro caso
 	@GetMapping("/")
 	public ModelAndView queHayEnSesion(
 				@SessionAttribute(
@@ -22,15 +25,18 @@ public class HomeController {
 		
 		ModelAndView view;
 		
+		// Si tiene sesion que le muestre la pagina de welcoe
 		if( usuarioEnSesion != null ) {
 			System.out.println("Usuario con sesion: " + usuarioEnSesion);
 			view = new ModelAndView("welcome");
 			view.addObject("usuarioFirmado", usuarioEnSesion); // Creación de la sesión de usuario
 			
 		}else {
+			// Redirigirlo al login en caso contrario
 			view = new ModelAndView("login", "formLogin", new LoginFrm());
 		}
 		
 		return view;
 	}
+	
 }

@@ -17,21 +17,29 @@ import mx.unam.pa.equipo4.cooperativa.formas.LoginFrm;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.UsuarioService;
 
+// Clase controlador para las operaciones sobre el Log In
 @Controller
 @SessionAttributes("usuarioFirmado")
 public class LoginController {
   @Autowired
   UsuarioService usuarioService;
   
+  // Definimos el metodo con las operaciones a realizar con /login,
+  //   que es mostrar la vista con el formulario para iniciar sesion
   @GetMapping("/login")
   public ModelAndView mostrarFormaLogin() {
 	  System.out.println("Mostrando forma de login");
+	  
+	  // Obtenemos la vista y agregamos el formulario necesario
 	  ModelAndView mav = new ModelAndView("login", "formLogin", new LoginFrm());
+	  
 	  return mav;
-	}
+  }
   
+  // Definimos el metodo con las operaciones a realizar con /loginProcess,
+  //   que es verificar la informacion de acceso en el formulario
   @RequestMapping( value = "/loginProcess", method = RequestMethod.POST )
-	public ModelAndView loginUsuario(@Valid @ModelAttribute("formLogin") LoginFrm frmLogin,
+  public ModelAndView loginUsuario(@Valid @ModelAttribute("formLogin") LoginFrm frmLogin,
 			BindingResult resultado, // Resultado de la validación 
 			ModelAndView view //  modelo a regresar
 		) {
@@ -44,6 +52,7 @@ public class LoginController {
 		
 		System.out.println("Buscando al usuario en la DB con el criterio: " + frmLogin);
 		
+		// Llamamos el service de usuario para validar la informacion del formulario
 		Usuario usuarioFirmado = usuarioService.validarUsuario(frmLogin);
 		
 		if( usuarioFirmado != null ) { // autenticación correcta

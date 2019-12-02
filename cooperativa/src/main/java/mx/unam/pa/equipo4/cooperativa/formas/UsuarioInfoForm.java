@@ -1,33 +1,41 @@
 package mx.unam.pa.equipo4.cooperativa.formas;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import javax.validation.constraints.Pattern;
 
+// Clase que define los parametros para la forma para dar de alta o modificar un usuario
 public class UsuarioInfoForm {
 	
+	// Atributo identificador id
 	@NotNull
 	private int id;
 	
+	// Atributo con el nombre de la cuenta, username
 	@NotNull
 	@Size(min = 2, max = 45, message = "Longitud requerida de 2 a 45 caracteres")
 	private String username;
 	
+	// Atributo de la contraseña de acceso
 	@NotNull
 	@Size(min = 2, max = 45, message = "Longitud requerida de 2 a 45 caracteres")
 	private String password;
 	
+	// Atributo del nombre de la persona dueña de la cuenta
 	@NotNull
 	@Size(min = 2, max = 45, message = "Longitud requerida de 2 a 45 caracteres")
 	private String nombre;
 	
+	// Atributo de los apellidos de la persona dueña de la cuenta
 	@NotNull
 	@Size(min = 2, max = 45, message = "Longitud requerida de 2 a 45 caracteres")
 	private String apellidos;
 	
+	// Atributo del correo de contacto del usuario
 	private String correo;
 	
+	// Atributo del telefono de contacto del usuario
 	private String telefono;
 	
+	// Atributo con el identificador del rol que tiene el usuario
 	private int idrol;
 	
 	public int getIdrol() {

@@ -18,12 +18,15 @@ import mx.unam.pa.equipo4.cooperativa.formas.UsuarioInfoForm;
 import mx.unam.pa.equipo4.cooperativa.model.Usuario;
 import mx.unam.pa.equipo4.cooperativa.service.UsuarioService;
 
+// Clase controlador para las operaciones sobre modificar la informacion del usuario en sesion
 @Controller
 @SessionAttributes("usuarioFirmado")
 public class UsuarioInfoController {
 	@Autowired
 	UsuarioService usuarioservice;
 	
+	// Definimos el metodo con las operaciones a realizar con /usuarioinfo,
+	//   que es mostrar la informacion del usuario en sesion junto el formulario para modificarla
 	@GetMapping("/usuarioinfo")
 	public ModelAndView informacionUsuario(@SessionAttribute(
 				name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
@@ -33,13 +36,15 @@ public class UsuarioInfoController {
 		  System.out.println("Mostrando forma de informacion de usuario");
 		  ModelAndView mav = new ModelAndView("usuarioInfo", "formUsuarioInfo", new UsuarioInfoForm());
 		  
-		// Agregamos al objeto de usuario en sesion
+		  // Agregamos al objeto de usuario en sesion
 		  mav.addObject("usuarioFirmado", usuarioEnSesion);
 		  
 		  return mav;
 		  
 	}
 	
+	// Definimos el metodo con las operaciones a realizar con /editarInfo,
+	//   que es modificar la informacion del usuario con la informacion del formulario
 	@RequestMapping( value = "/editarInfo", method = RequestMethod.POST )
 	public ModelAndView editarInfoUsuario(@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioinform,
 			@SessionAttribute(
@@ -58,8 +63,11 @@ public class UsuarioInfoController {
 		}
 		
 		view.setViewName("usuarioInfo");
+		
+		// Desalojamos la instancia del usuario
 		usuarioservice.desalojar(usuarioEnSesion);
 		
+		// Modificamos la informacion con la informacion del formulario
 		usuarioEnSesion.setNombre(usuarioinform.getNombre());
 		usuarioEnSesion.setApellidos(usuarioinform.getApellidos());
 		usuarioEnSesion.setUsername(usuarioinform.getUsername());
@@ -67,11 +75,13 @@ public class UsuarioInfoController {
 		usuarioEnSesion.setCorreo(usuarioinform.getCorreo());
 		usuarioEnSesion.setTelefono(usuarioinform.getTelefono());
 		
+		// Guardamos la instancia en la base de datos
 		usuarioservice.actualizar(usuarioEnSesion);
+		
+		// Agregamos el usuario Firmado a sesion
 		view.addObject("usuarioFirmado", usuarioEnSesion); 
 		return view;
 	}
-	
 	
 
 }

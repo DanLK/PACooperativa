@@ -10,40 +10,52 @@ import javax.persistence.Table;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+// Definicion de la clase entidad para la tabla usuario
 @Entity
 @Table(name = "usuario")
 public class Usuario {
+	
+	// Atributo de identificacion id
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "usuario_id")
 	private int id;
 	
+	// Atributo del nombre de la persona dueña de la cuenta
 	@Column(name = "nombre", nullable = false, length = 45)
 	private String nombre;
 	
+	// Atributo de los apellidos de la persona dueña de la cuenta
 	@Column(name = "apellidos", nullable = false, length = 45)
 	private String apellidos;
 	
+	// Atributo del nombre para identificar la cuenta, el username
 	@Column(name = "username", nullable = false, length = 45)
 	private String username;
 	
+	// Atributo para definir la contraseña de acceso
 	@Column(name = "password", nullable = false, length = 255)
 	private String password;
 	
+	// Atributo para definir un correo como contacto
 	@Column(name = "correo", length = 255)
 	private String correo;
 	
+	// Atributo para definir un telefono como contacto
 	@Column(name = "telefono", length = 255)
 	private String telefono;
 	
+	// Atributo de tipo Rol que define el rol que tiene el usuario (Administrador o socio)
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "rol_rol_id")
 	private Rol rol;
 	
+	// Constructor Default
 	public Usuario() {
 		super();
 	}
 	
+	// Constructor con todos los atributos menos el identificador
 	public Usuario(String nombre, String apellidos, String username, String password, String correo, String telefono, Rol rol) {
 		super();
 		this.nombre = nombre;
@@ -119,6 +131,7 @@ public class Usuario {
 		this.rol = rol;
 	}
 	
+	// Metodo para imprimir el contenido del objeto
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();

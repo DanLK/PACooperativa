@@ -3,19 +3,25 @@ package mx.unam.pa.equipo4.cooperativa.formas;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
+// Clase que define los parametros para la forma de dar de alta o modificar un producto
 public class ProductoForm {
 	
+	// Atributo de identificacion id
 	private int id;
 	
+	// Atributo con el nombre del producto
 	@NotNull
 	@Size(min = 2, max = 45, message = "Logintud requerida de 2 a 45 caracteres")
 	private String nombre;
 	
+	// Atributo con el contenido del producto (1 pza, 50 gr, 1 caja, etc.)
 	private String contenido;
 	
+	// Atributo con el precio unitario del producto
 	@NotNull
 	private float precio;
 	
+	// Atributo que describe el nombre del departamento al que pertenece el producto
 	private String departamento;
 	
 	public int getId() {
@@ -58,6 +64,7 @@ public class ProductoForm {
 		this.departamento = departamento;
 	}
 	
+	// Metodo para imprimir el contenido del objeto
 	@Override
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
