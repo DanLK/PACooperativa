@@ -14,6 +14,24 @@
         <title>Modificar Pedido</title>
     </head>
     <body>
+    <div class="modal">
+				  <div class="modal-background"></div>
+				  <div class="modal-content">
+				  <div class="box">
+				    <article class="media">
+  						
+  						<div class="media-content">
+    						<div class="content">
+      							<p>
+        							<strong id="messageModalImp">El producto ya se encuentra en el pedido</strong>
+      							</p>
+    						</div>
+  						</div>
+					</article>
+					</div>
+				  </div>
+				  <button class="modal-close is-large" aria-label="close"></button>
+				</div>
     <div class="ventanaContent">
     <div class="box boxAdds">
     <aside class="menu">
@@ -73,6 +91,7 @@
   	</ul>
 	</aside>
 	</div>
+	
     <div class="pedidoContent">
     	<div class="box">
     		<div><label class="title is-3">Modificar Pedido ${pedidoID}</label></div>
@@ -88,6 +107,9 @@
 				    	</select>
 				  	</div>
         		</c:if>
+    			
+    			
+    			
     			
     			<table class="table tablePd">
 				  <thead>
@@ -120,6 +142,7 @@
     			</div>
     		</div>
     		<div>
+    		<div style="display:none;" class="tag is-danger is-light" id="errorFoundTag"></div>
     		<div>
     			<label  class="title is-6">Total: $<label class="title is-6" id="totalPedidoLabel">0.00</label></label> 
     		</div>

@@ -79,9 +79,12 @@
     		<div class="column is-three-quarters">
     			<form:form method="POST" action="editarInfo" modelAttribute="formUsuarioInfo">
     			<div style="display:none;">
-				  <label class="label">ID</label>
+				  <form:label path="id" class="label">ID</form:label>
 				  <div class="control">
 				    <form:input path="id" class="input" name="id" type="text" value="${usuarioFirmado.getId()}" />
+				  </div>
+				  <div class="control">
+				  	<form:errors path="id" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div style="display:none;">
@@ -91,40 +94,63 @@
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Nombre</label>
+				  <form:label path="nombre" class="label">Nombre</form:label>
 				  <div class="control">
-				    <form:input path="nombre" class="input" name="nombre" type="text" value="${usuarioFirmado.getNombre()}" disabled="true"/>
+				    <form:input path="nombre" class="input" name="nombre" type="text" value="${informacionUsuarioFirmado.getNombre()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="nombre" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Apellidos</label>
+				  <form:label path="apellidos" class="label">Apellidos</form:label>
 				  <div class="control">
-				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${usuarioFirmado.getApellidos()}" disabled="true"/>
+				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${informacionUsuarioFirmado.getApellidos()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="apellidos" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Username</label>
+				  <form:label path="username" class="label">Username</form:label>
+				  <c:if test="${not empty error}">
+						<div class="control">
+					  		<label class="tag is-danger is-light">${error}</label>
+					  	</div>
+					</c:if>
 				  <div class="control">
-				    <form:input path="username" class="input" name="username" type="text" value="${usuarioFirmado.getUsername()}" disabled="true"/>
+				    <form:input path="username" class="input" name="username" type="text" value="${informacionUsuarioFirmado.getUsername()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="username" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Correo</label>
+				  <form:label path="correo" class="label">Correo</form:label>
 				  <div class="control">
-				    <form:input path="correo" class="input" name="correo" type="text" value="${usuarioFirmado.getCorreo()}" disabled="true"/>
+				    <form:input path="correo" class="input" name="correo" type="text" value="${informacionUsuarioFirmado.getCorreo()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="correo" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Teléfono</label>
+				  <form:label path="telefono" class="label">Teléfono</form:label>
 				  <div class="control">
-				    <form:input path="telefono" class="input" name="telefono" type="text" value="${usuarioFirmado.getTelefono()}" disabled="true"/>
+				    <form:input path="telefono" class="input" name="telefono" type="text" value="${informacionUsuarioFirmado.getTelefono()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="telefono" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				
 				<div class="field">
-				  <label class="label">Password</label>
+				  <form:label path="password" class="label">Password</form:label>
 				  <div class="control">
-				    <form:input path="password" class="input" name="password" type="text" value="${usuarioFirmado.getPassword()}" disabled="true"/>
+				    <form:input path="password" class="input" name="password" type="text" value="${informacionUsuarioFirmado.getPassword()}" disabled="true"/>
+				  </div>
+				  <div class="control">
+				  	<form:errors path="password" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 		

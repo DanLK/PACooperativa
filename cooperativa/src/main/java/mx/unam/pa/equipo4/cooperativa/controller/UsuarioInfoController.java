@@ -39,6 +39,9 @@ public class UsuarioInfoController {
 		  // Agregamos al objeto de usuario en sesion
 		  mav.addObject("usuarioFirmado", usuarioEnSesion);
 		  
+		  // Agregamos al objeto de la informacion usuario en sesion
+		  mav.addObject("informacionUsuarioFirmado", usuarioEnSesion);
+		  
 		  return mav;
 		  
 	}
@@ -47,11 +50,11 @@ public class UsuarioInfoController {
 	//   que es modificar la informacion del usuario con la informacion del formulario
 	@RequestMapping( value = "/editarInfo", method = RequestMethod.POST )
 	public ModelAndView editarInfoUsuario(@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioinform,
+			BindingResult resultado, // Resultado de la validación 
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 			Usuario usuarioEnSesion,
-			BindingResult resultado, // Resultado de la validación 
 			ModelAndView view //  modelo a regresar
 		) {
 		
@@ -62,7 +65,26 @@ public class UsuarioInfoController {
 			return view;
 		}
 		
-		view.setViewName("usuarioInfo");
+		// Validamos si esta cambiando el username, y este ya existe
+		// Obtener username actual y si es distinto lo esta cambiando
+		// Checar si ya existe ese username
+		if (usuarioEnSesion.getUsername().equals(usuarioinform.getUsername()) == false) {
+			Usuario validateUsuario = usuarioservice.getUsuario(usuarioinform.getUsername());
+			if (validateUsuario != null) {
+				
+				System.err.println("El username ya esta en uso");
+				view.setViewName("usuarioInfo");
+				
+				// Agregamos el usuario en Sesion
+				view.addObject("usuarioFirmado", usuarioEnSesion); 
+				
+				// Agregamos el error
+				view.addObject("error", "Username ocupado");
+				
+				return view;
+				
+			}
+		}
 		
 		// Desalojamos la instancia del usuario
 		usuarioservice.desalojar(usuarioEnSesion);
@@ -78,8 +100,12 @@ public class UsuarioInfoController {
 		// Guardamos la instancia en la base de datos
 		usuarioservice.actualizar(usuarioEnSesion);
 		
+		// Obtenemos la vista
+		view.setViewName("usuarioInfo");
+		
 		// Agregamos el usuario Firmado a sesion
-		view.addObject("usuarioFirmado", usuarioEnSesion); 
+		view.addObject("usuarioFirmado", usuarioEnSesion);
+		
 		return view;
 	}
 	

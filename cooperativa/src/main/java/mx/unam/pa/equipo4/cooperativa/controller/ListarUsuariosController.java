@@ -111,13 +111,6 @@ public class ListarUsuariosController {
 			// Obtenemos la instancia de la base de datos
 			Usuario usuarioAModificar = usuarioService.getUsuario(usuarioId);
 			
-			// Verificamos que no modifiquemos al mismo usuario con el que estamos logeados
-			if (usuarioAModificar.getId() == usuarioEnSesion.getId()) {
-				ModelAndView view = new ModelAndView("listarUsuarios");
-				view.addObject("usuarioFirmado", usuarioEnSesion);
-				return view;
-			}
-			
 			// Agregamos el formulario a la vista de modificar usuario 
 			ModelAndView mav = new ModelAndView("modificaUsuario", "formUsuarioInfo", new UsuarioInfoForm());
 			
@@ -130,6 +123,9 @@ public class ListarUsuariosController {
 			// Agregamos la instancia del usuario a modificar
 			mav.addObject("usuario", usuarioAModificar);	
 			
+			// Agregamos la ruta para los resources
+			mav.addObject("rutaResources", "../../");
+			
 			return mav;
 	}
 	
@@ -137,18 +133,33 @@ public class ListarUsuariosController {
 	//   que es modificar el usuario con la informacion que fue enviada en el formulario
 	@RequestMapping( value = "/modificarUsuario", method = RequestMethod.POST )
 	public ModelAndView editarInfoUsuario(@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioform,
+			BindingResult resultado, // Resultado de la validación 
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 			Usuario usuarioEnSesion,
-			BindingResult resultado, // Resultado de la validación 
 			ModelAndView view //  modelo a regresar
 		) {
 		
 		if( resultado.hasErrors() ) {
 			System.err.println("La validación de la forma presentó errores");
-			view.setViewName("listarUsuarios");
+			view.setViewName("modificaUsuario");
+			
+			// Obtenemos la instancia de la base de datos
+			Usuario usuarioAModificar = usuarioService.getUsuario(usuarioform.getId());
+			
+			// Agregamos la ruta para los resources
+			view.addObject("rutaResources", "");
+			
+			// Agregamos el usuario en Sesion
 			view.addObject("usuarioFirmado", usuarioEnSesion); 
+			
+			// Agregamos el id del usuario a modificar
+			view.addObject("usuarioID", usuarioAModificar.getId());	
+			
+			// Agregamos la instancia del usuario a modificar
+			// view.addObject("usuario", usuarioAModificar);
+			
 			return view;
 		}
 		
@@ -156,6 +167,40 @@ public class ListarUsuariosController {
 		
 		// Obtenemos la instancia del usuario a modificar
 		Usuario aModificar = usuarioService.getUsuario(usuarioform.getId());
+		
+		// Validamos si esta cambiando el username, y este ya existe
+		// Obtener username actual y si es distinto lo esta cambiando
+		// Checar si ya existe ese username
+		if (aModificar.getUsername().equals(usuarioform.getUsername()) == false) {
+			Usuario validateUsuario = usuarioService.getUsuario(usuarioform.getUsername());
+			if (validateUsuario != null) {
+				
+				System.err.println("El username ya esta en uso");
+				view.setViewName("modificaUsuario");
+				
+				// Obtenemos la instancia de la base de datos
+				Usuario usuarioAModificar = usuarioService.getUsuario(usuarioform.getId());
+				
+				// Agregamos la ruta para los resources
+				view.addObject("rutaResources", "");
+				
+				// Agregamos el usuario en Sesion
+				view.addObject("usuarioFirmado", usuarioEnSesion); 
+				
+				// Agregamos el id del usuario a modificar
+				view.addObject("usuarioID", usuarioAModificar.getId());	
+				
+				// Agregamos la instancia del usuario a modificar
+				// view.addObject("usuario", usuarioAModificar);
+				
+				// Agregamos el error
+				view.addObject("error", "Username ocupado");
+				
+				return view;
+				
+				
+			}
+		}
 		
 		// Desalojamos la instancia del usuario a modificar
 		usuarioService.desalojar(aModificar);
@@ -210,11 +255,11 @@ public class ListarUsuariosController {
 	@RequestMapping( value = "/registrarusuario", method = RequestMethod.POST )
 	public ModelAndView registrarUsuario(
 			@Valid @ModelAttribute("formUsuarioInfo") UsuarioInfoForm usuarioForm,
+			BindingResult resultado, // Resultado de la validación 
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
 			Usuario usuarioEnSesion,
-			BindingResult resultado, // Resultado de la validación 
 			ModelAndView view //  modelo a regresar
 		) {
 		
@@ -226,9 +271,30 @@ public class ListarUsuariosController {
 		}
 		
 		if( resultado.hasErrors() ) {
-			System.err.println("La validación de la forma de Pedido presentó errores");
-			view.setViewName("nuevousuario");
-			view.addObject("usuarioFirmado", usuarioEnSesion);
+			System.err.println("La validación de la forma presentó errores");
+			view.setViewName("nuevoUsuario");
+			
+			// Agregamos el usuario en Sesion
+			view.addObject("usuarioFirmado", usuarioEnSesion); 
+			
+			return view;
+		}
+		
+		// Validamos si esta cambiando el username, y este ya existe
+		// Obtener username actual y si es distinto lo esta cambiando
+		// Checar si ya existe ese username
+		Usuario validateUsuario = usuarioService.getUsuario(usuarioForm.getUsername());
+		if (validateUsuario != null) {
+			
+			System.err.println("El username ya esta en uso");
+			view.setViewName("nuevoUsuario");
+			
+			// Agregamos el usuario en Sesion
+			view.addObject("usuarioFirmado", usuarioEnSesion); 
+			
+			// Agregamos el error
+			view.addObject("error", "Username ocupado");
+			
 			return view;
 		}
 		

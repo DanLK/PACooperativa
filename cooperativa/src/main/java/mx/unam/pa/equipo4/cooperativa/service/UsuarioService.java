@@ -32,6 +32,9 @@ public interface UsuarioService {
 	// Funcion para traer un usuario con un id en especifico
 	public Usuario getUsuario(int id);
 	
+	// Funcion para traer un usuario con un username en especifico
+	public Usuario getUsuario(String username);
+	
 	// Funcion para validar el usuario y contraseña para logearse
 	public Usuario validarUsuario(LoginFrm login);
 	

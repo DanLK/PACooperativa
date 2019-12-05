@@ -86,6 +86,9 @@
 	            <div class="control">
 	            	<form:input class="input" path="nombre"/>
 	            </div>
+	            <div class="control">
+				  	<form:errors path="nombre" cssClass="tag is-danger is-light" />
+				  </div>
 	        </div>
 	           
 	        <div class="field"> 
@@ -93,6 +96,9 @@
 	            <div class="control">
 	            <form:input class="input" path="contenido"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="contenido" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	        
 	        <div class="field">
@@ -100,6 +106,9 @@
 	            <div class="control">
 	            <form:input class="input" path="precio"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="precio" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	        
 	        <div class="field">  
@@ -107,6 +116,9 @@
 	            <div class="control">
 	            <form:input class="input" path="departamento"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="departamento" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	            
 	        <div style="text-align: center;">

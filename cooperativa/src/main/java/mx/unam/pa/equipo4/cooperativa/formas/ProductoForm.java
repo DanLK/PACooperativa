@@ -1,6 +1,7 @@
 package mx.unam.pa.equipo4.cooperativa.formas;
 
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 // Clase que define los parametros para la forma de dar de alta o modificar un producto
@@ -19,7 +20,8 @@ public class ProductoForm {
 	
 	// Atributo con el precio unitario del producto
 	@NotNull
-	private float precio;
+	@Pattern(regexp="^-?\\d+\\.?\\d*$", message = "Precio no valido")
+	private String precio;
 	
 	// Atributo que describe el nombre del departamento al que pertenece el producto
 	private String departamento;
@@ -48,11 +50,11 @@ public class ProductoForm {
 		this.contenido = contenido;
 	}
 	
-	public float getPrecio() {
+	public String getPrecio() {
 		return precio;
 	}
 	
-	public void setPrecio(float precio) {
+	public void setPrecio(String precio) {
 		this.precio  = precio;
 	}
 	

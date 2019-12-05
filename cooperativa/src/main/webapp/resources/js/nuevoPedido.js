@@ -5,11 +5,21 @@ function removerDePedido(idItem) {
 	repintarPedido();
 }
 
-function cambiarCantidadItem(cantidad, idItem) {
-	if (cantidad < 1) { cantidad = 1; }
-	listadoEnPedido[idItem]["cantidad"] = cantidad;
-	listadoEnPedido[idItem]["subtotal"] = parseFloat(cantidad) * listadoEnPedido[idItem]["precioUnitario"];
-	repintarPedido();
+function validateCantidad(cantidad) {	
+	var reg = /^\d+$/;	
+	var reg2 = /^0+/;	
+	return reg.test(cantidad) && (!reg2.test(cantidad));	
+}	
+
+function cambiarCantidadItem(cantidad, idItem) {	
+		
+	if (validateCantidad(cantidad)) {	
+		listadoEnPedido[idItem]["cantidad"] = cantidad;	
+		listadoEnPedido[idItem]["subtotal"] = parseFloat(cantidad) * listadoEnPedido[idItem]["precioUnitario"];	
+		repintarPedido();	
+	} else {	
+		startModal("La cantidad \" " + cantidad + " \" para el Producto: " + idItem + " - "+ listadoEnPedido[idItem]["nombre"] + ", no es valida. La cantidad debe ser mayor a 0.");	
+	}	
 }
 
 function repintarPedido() {
@@ -86,7 +96,11 @@ function funcionParaAgregar(ev) {
 	
 	
 	// Regresamos si ya esta en el arreglo
-	if (typeof listadoEnPedido[idItem] != "undefined") { return; } 
+	if (typeof listadoEnPedido[idItem] != "undefined") { 	
+		startModal("El producto ya esta en el pedido");	
+		return; 	
+	} 
+	
 	listadoEnPedido[idItem] = {
 			"id": idItem,
 			"nombre": nombreItem,
@@ -102,11 +116,24 @@ function funcionParaAgregar(ev) {
 	
 }
 
-function realizarPedido() {
+function realizarPedido(ev) {
+	ev.preventDefault();
 	
 	// Revisamos si es que tenemos al menos un objeto
 	var keyList = Object.keys(listadoEnPedido);
-	if (keyList.length == 0) return;
+	if (keyList.length == 0){	
+		startModal("El pedido debe tener al menos un producto");	
+		return;	
+	} 	
+	
+	// Debemos tener cantidades validas	
+	var inputList = document.getElementsByClassName("inputPd");	
+	for (var i = 0; i < inputList.length; ++i) {	
+		if (!validateCantidad(inputList[i].value)) {	
+			startModal("La cantidad \" " + inputList[i].value + " \", no es valida. La cantidad debe ser mayor a 0.");	
+			return;	
+		}	
+	}
 	
 	// Llenamos y hacemos submit del formulario Fantasma
 	var totalPedido = 0.0;
@@ -127,6 +154,27 @@ function realizarPedido() {
 		registrarPedidoForm.submit();
 	
 }
+
+
+//Damos funcionalidad al modal	
+function startModal(messageAImprimir) {	
+	var messageImp = document.getElementById("messageModalImp");	
+		messageImp.innerText = messageAImprimir;	
+	var modal = document.querySelector('.modal');  // assuming you have only 1	
+	var html = document.querySelector('html');	
+		
+	modal.classList.add('is-active');	
+	html.classList.add('is-clipped');	
+		
+	function closeModal(e) {	
+		e.preventDefault();	
+		modal.classList.remove('is-active');	
+		html.classList.remove('is-clipped');	
+	}	
+		
+	modal.querySelector('.modal-background').addEventListener('click', closeModal);	
+	modal.querySelector('.modal-close').addEventListener('click', closeModal);	
+} 
 
 window.onload = function() {
 	console.log("Nuevo Pedido");

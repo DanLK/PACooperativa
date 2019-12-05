@@ -14,6 +14,24 @@
         <title>Nuevo Pedido</title>
     </head>
     <body>
+    <div class="modal">
+				  <div class="modal-background"></div>
+				  <div class="modal-content">
+				  <div class="box">
+				    <article class="media">
+  						
+  						<div class="media-content">
+    						<div class="content">
+      							<p>
+        							<strong id="messageModalImp">El producto ya se encuentra en el pedido</strong>
+      							</p>
+    						</div>
+  						</div>
+					</article>
+					</div>
+				  </div>
+				  <button class="modal-close is-large" aria-label="close"></button>
+				</div>
     <div class="ventanaContent">
     <div class="box boxAdds">
     <aside class="menu">
