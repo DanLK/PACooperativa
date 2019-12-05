@@ -1,6 +1,12 @@
 El proyecto se encuentra en la carpeta "cooperativa".
 
 
+Los videos de las actualizaciones 
+y uno con las funcionalidades tomando como ejemplo producto 
+(el proyecto incluye la funcionalidad como expusimos para usuario y pedidos pero no los mostramos en el video)
+se encuentran en "DOCUMENTACION".
+
+
 Se encuentran validaciones en todos los formularios en los campos obligatorios,
 así como la validación en base de datos y en código para que existan usernames únicos.
 
@@ -36,3 +42,7 @@ password: juanitobigotes
 
 username: Rob1256 
 password: robalram35
+
+De igual forma este es el link al repositorio de github donde trabajamos en nuestros branchs, y lo que integrabamos en el master:
+https://github.com/DanLK/PACooperativa
+
