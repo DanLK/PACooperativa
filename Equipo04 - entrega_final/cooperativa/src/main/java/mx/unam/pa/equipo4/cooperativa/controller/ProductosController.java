@@ -84,6 +84,9 @@ public class ProductosController {
 			// Agregamos el objeto del producto a modificar
 			mav.addObject("productoAModificar", productoAModificar);
 			
+			// Agregamos la ruta de los resources
+			mav.addObject("rutaResources", "../../");
+			
 			return mav;
 	}
 	
@@ -92,17 +95,21 @@ public class ProductosController {
 	@RequestMapping( value = "/modificarProducto", method = RequestMethod.POST )
 	public ModelAndView guardarCambiosProducto(
 			@Valid @ModelAttribute("productoForm") ProductoForm productoForm,
+			BindingResult resultado, // Resultado de la validación
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
-			Usuario usuarioEnSesion,
-			BindingResult resultado, // Resultado de la validación 
+			Usuario usuarioEnSesion, 
 			ModelAndView view //  modelo a regresar
 		) {
 		
 		if( resultado.hasErrors() ) {
 			System.err.println("La validación de la forma de Producto presentó errores");
-			view.setViewName("/modificar/" + productoForm.getId());
+			view.setViewName("modificarProducto");
+			
+			// Agregamos la ruta de los resources
+			view.addObject("rutaResources", "");
+			
 			return view;
 		}
 		
@@ -115,7 +122,7 @@ public class ProductosController {
 		// Actualizamos la informacion del producto a modificar
 		productoAModificar.setNombre(productoForm.getNombre());
 		productoAModificar.setContenido(productoForm.getContenido());
-		productoAModificar.setPrecio(productoForm.getPrecio());
+		productoAModificar.setPrecio(Float.parseFloat(productoForm.getPrecio()));
 		productoAModificar.setDepartamento(productoForm.getDepartamento());
 		
 		// Actualizamos la instancia en la base de datos
@@ -176,7 +183,10 @@ public class ProductosController {
 		  
 		// Agregamos al objeto de usuario en sesion
 		mav.addObject("usuarioFirmado", usuarioEnSesion);
-		  
+		
+		// Agregamos la ruta de los resources
+		mav.addObject("rutaResources", "../../");
+		
 		return mav;
 	}
 	
@@ -185,11 +195,11 @@ public class ProductosController {
 	@RequestMapping( value = "/registrarproducto", method = RequestMethod.POST )
 	public ModelAndView registrarProducto(
 			@Valid @ModelAttribute("productoForm") ProductoForm productoForm,
+			BindingResult resultado, // Resultado de la validación
 			@SessionAttribute(
 					name = "usuarioFirmado", // nombre del objeto puesto en sesión desde el controlador LoginController
 					required = false) // Si no se indica esta bandera, se lanzará una excepción si dicho atributo no está en la sesión
-			Usuario usuarioEnSesion,
-			BindingResult resultado, // Resultado de la validación 
+			Usuario usuarioEnSesion, 
 			ModelAndView view //  modelo a regresar
 		) {
 		
@@ -202,7 +212,7 @@ public class ProductosController {
 		
 		if( resultado.hasErrors() ) {
 			System.err.println("La validación de la forma de Pedido presentó errores");
-			view.setViewName("nuevoproducto");
+			view.setViewName("nuevoProducto");
 			view.addObject("usuarioFirmado", usuarioEnSesion);
 			return view;
 		}
@@ -211,7 +221,7 @@ public class ProductosController {
 		Producto nuevoProducto = new Producto(
 				productoForm.getNombre(),
 				productoForm.getContenido(),
-				productoForm.getPrecio(),
+				Float.parseFloat(productoForm.getPrecio()),
 				productoForm.getDepartamento()
 			);
 		

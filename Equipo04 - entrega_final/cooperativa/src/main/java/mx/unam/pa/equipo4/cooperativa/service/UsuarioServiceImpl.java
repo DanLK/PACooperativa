@@ -65,6 +65,12 @@ public class UsuarioServiceImpl implements UsuarioService {
 		return dao.getUsuario(id);
 	}
 	
+	// Funcion para traer un usuario con un username en especifico
+	@Override
+	public Usuario getUsuario(String username) {
+		return dao.getUsuario(username);
+	}
+	
 	// Funcion para validar el usuario y contraseña para logearse
 	@Override
 	public Usuario validarUsuario(LoginFrm login) {

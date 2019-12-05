@@ -8,10 +8,10 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="../../resources/css/bulma.min.css" rel="stylesheet">
-        <link href="../../resources/css/estilo.css" rel="stylesheet">
-        <script defer src="../../resources/js/fontawesome.js"></script>
-        <script defer src="../../resources/js/modificarproducto.js"></script>
+        <link href="${rutaResources}resources/css/bulma.min.css" rel="stylesheet">
+        <link href="${rutaResources}resources/css/estilo.css" rel="stylesheet">
+        <script defer src="${rutaResources}resources/js/fontawesome.js"></script>
+        <script defer src="${rutaResources}resources/js/modificarproducto.js"></script>
         <title>Modificar Producto</title>
     </head>
     <body>
@@ -83,9 +83,9 @@
    		<div class="column is-three-quarters">
    		
    		
-   		<form:form method="POST" action="../../modificarProducto" modelAttribute="productoForm">
+   		<form:form method="POST" action="${rutaResources}modificarProducto" modelAttribute="productoForm">
 			
-			<div style="display=none;">
+			<div style="display:none;">
 				<form:label class="label" path="id">ID</form:label>
 	            <div class="control">
 	            	<form:input class="input" path="id" value="${productoAModificar.id}" disabled="true"/>
@@ -97,6 +97,9 @@
 	            <div class="control">
 	            	<form:input class="input" path="nombre" value="${productoAModificar.nombre}" disabled="true"/>
 	            </div>
+	            <div class="control">
+				  	<form:errors path="nombre" cssClass="tag is-danger is-light" />
+				  </div>
 	        </div>
 	           
 	        <div class="field"> 
@@ -104,6 +107,9 @@
 	            <div class="control">
 	            <form:input class="input" path="contenido" value="${productoAModificar.contenido}" disabled="true"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="contenido" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	        
 	        <div class="field">
@@ -111,6 +117,9 @@
 	            <div class="control">
 	            <form:input class="input" path="precio" value="${productoAModificar.precio}" disabled="true"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="precio" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	        
 	        <div class="field">  
@@ -118,6 +127,9 @@
 	            <div class="control">
 	            <form:input class="input" path="departamento" value="${productoAModificar.departamento}" disabled="true"/>
 	            </div>
+	            <div class="control">
+					  	<form:errors path="departamento" cssClass="tag is-danger is-light" />
+					  </div>
 	        </div>
 	            
 	        <div style="text-align: center;">

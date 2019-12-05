@@ -121,10 +121,34 @@ public class UsuarioDAOImpl implements UsuarioDAO {
 		return sessionFactory.getCurrentSession().get(Usuario.class, id);
 	}
 	
+	// Funcion para traer un usuario con un id en especifico
+	@Override
+	public Usuario getUsuario(String username) {
+		Session session = sessionFactory.getCurrentSession();
+		
+		CriteriaBuilder builder = session.getCriteriaBuilder();
+		
+		CriteriaQuery<Usuario> criteria = builder.createQuery(Usuario.class);
+		
+		Root<Usuario> root = criteria.from(Usuario.class);
+		
+		// Aqui definimos el criterio de coincidencia para usuario y contraseña
+		criteria.select(root).where(builder.and(
+				builder.equal(root.get("username"), username)
+			));
+		
+		Query<Usuario> query = session.createQuery(criteria);
+	    List<Usuario> users = query.getResultList();
+	    if (users.size() == 0) {
+	    	return null;
+	    }
+	    return users.get(0);
+	}
+	
 	// Funcion para validar el usuario y contraseña para logearse
 	@Override
 	public Usuario validarUsuario(LoginFrm login) {
-		 Session session = sessionFactory.getCurrentSession();
+		Session session = sessionFactory.getCurrentSession();
 		
 		CriteriaBuilder builder = session.getCriteriaBuilder();
 		

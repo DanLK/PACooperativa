@@ -24,20 +24,28 @@
 	  	<div class="columns is-mobile">
 	  		<div class="column  is-three-quarters">
 	  			<c:if test="${not empty error}">
-				<div class="errorblock">${error}</div>
+				<div class="control">
+			  		<label class="tag is-danger is-light">${error}</label>
+			  	</div>
 			</c:if>
 			<p>
 				<form:form method="POST" action="loginProcess" modelAttribute="formLogin">
 					<div class="field">
-					  <label class="label">Usuario</label>
+					  <form:label class="label" path="username">Usuario</form:label>
 					  <div class="control">
-					    <input class="input" name="username" type="text" >
+					    <form:input class="input" path="username" name="username" type="text" />
+					  </div>
+					  <div class="control">
+					  	<form:errors path="username" cssClass="tag is-danger is-light" />
 					  </div>
 					</div>
 					<div class="field">
-					  <label class="label">Contraseña</label>
+					  <form:label path="password" class="label">Contraseña</form:label>
 					  <div class="control">
-					    <input class="input" name="password" type="password"">
+					    <form:input path="password" class="input" name="password" type="password"/>
+					  </div>
+					  <div class="control">
+					  	<form:errors path="password" cssClass="tag is-danger is-light" />
 					  </div>
 					</div>
 					<button class="button is-link" type="submit">Entrar</button>
@@ -47,8 +55,6 @@
 	  	</div>
 	  		
 	  	</div>
-		
-		<!--  <p>&iquest;A&uacute;n no eres miembro? <a href="usuario/registro3">Reg&iacute;strate</a></p> -->
 	
 </body>
 </html>

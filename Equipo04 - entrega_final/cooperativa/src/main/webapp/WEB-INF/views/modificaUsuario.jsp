@@ -7,10 +7,10 @@
 
         <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <link href="../../resources/css/bulma.min.css" rel="stylesheet">
-        <link href="../../resources/css/estilo.css" rel="stylesheet">
-        <script defer src="../../resources/js/fontawesome.js"></script>
-        <script defer src="../../resources/js/modificausuario.js"></script>
+        <link href="${rutaResources}resources/css/bulma.min.css" rel="stylesheet">
+        <link href="${rutaResources}resources/css/estilo.css" rel="stylesheet">
+        <script defer src="${rutaResources}resources/js/fontawesome.js"></script>
+        <script defer src="${rutaResources}resources/js/modificausuario.js"></script>
         <title>Modificar Usuario</title>
     </head>
     <body>
@@ -77,48 +77,74 @@
     	<div class="box">
     		<div style="text-align: center;"><label class="title is-3">Modificar Usuario ${usuarioID}</label></div>
     		<div class="column is-three-quarters">
-    			<form:form method="POST" action="../../modificarUsuario" id="modificarUsuarioForm" modelAttribute="formUsuarioInfo">
+    			<form:form method="POST" action="${rutaResources}modificarUsuario" id="modificarUsuarioForm" modelAttribute="formUsuarioInfo">
     			<div style="display:none;">
-				  <label class="label">ID</label>
+				  <form:label path="id" class="label">ID</form:label>
 				  <div class="control">
-				    <form:input path="id" class="input" name="id" type="text" value="${usuario.getId()}" />
+				    <form:input path="id" class="input" name="id" type="text" value="${usuarioID}" />
+				  </div>
+				  <div class="control">
+				  	<form:errors path="id" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Nombre</label>
+				  <form:label path="nombre" class="label">Nombre</form:label>
 				  <div class="control">
 				    <form:input path="nombre" class="input" name="nombre" type="text" value="${usuario.getNombre()}" />
 				  </div>
+				  <div class="control">
+				  	<form:errors path="nombre" cssClass="tag is-danger is-light" />
+				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Apellidos</label>
+				  <form:label path="apellidos" class="label">Apellidos</form:label>
 				  <div class="control">
 				    <form:input path="apellidos" class="input" name="apellidos" type="text" value="${usuario.getApellidos()}" />
 				  </div>
+				  <div class="control">
+				  	<form:errors path="apellidos" cssClass="tag is-danger is-light" />
+				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Username</label>
+				  <form:label path="username" class="label">Username</form:label>
+				  <c:if test="${not empty error}">
+						<div class="control">
+					  		<label class="tag is-danger is-light">${error}</label>
+					  	</div>
+					</c:if>
 				  <div class="control">
 				    <form:input path="username" class="input" name="username" type="text" value="${usuario.getUsername()}" />
 				  </div>
-				</div>
-				<div class="field">
-				  <label class="label">Correo</label>
 				  <div class="control">
-				    <form:input path="correo" class="input" name="correo" type="text" value="${usuario.getCorreo()}" />
+				  	<form:errors path="username" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				<div class="field">
-				  <label class="label">Teléfono</label>
+				  <form:label path="correo" class="label">Correo</form:label>
+				  <div class="control">
+				    <form:input path="correo" class="input" name="correo" type="text" value="${usuario.getCorreo()}" />
+				  </div>
+				  <div class="control">
+				  	<form:errors path="correo" cssClass="tag is-danger is-light" />
+				  </div>
+				</div>
+				<div class="field">
+				  <form:label path="telefono" class="label">Teléfono</form:label>
 				  <div class="control">
 				    <form:input path="telefono" class="input" name="telefono" type="text" value="${usuario.getTelefono()}" />
+				  </div>
+				  <div class="control">
+				  	<form:errors path="telefono" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 				
 				<div class="field">
-				  <label class="label">Password</label>
+				  <form:label path="password" class="label">Password</form:label>
 				  <div class="control">
 				    <form:input path="password" class="input" name="password" type="text" value="${usuario.getPassword()}" />
+				  </div>
+				  <div class="control">
+				  	<form:errors path="password" cssClass="tag is-danger is-light" />
 				  </div>
 				</div>
 		
